@@ -80,7 +80,7 @@ def make_artistic_scannable_qr():
 
     # Process official graphic: convert white background to navy/transparent or crop circle
     try:
-        official_img = Image.open('/Users/eric/dev/katr/2026/assets/official_graphic.jpg').convert('RGBA')
+        official_img = Image.open('../2026/assets/official_graphic.jpg').convert('RGBA')
         
         # Multiply/Blend white background of image into navy background or key out pure white
         datas = official_img.getdata()
@@ -115,15 +115,11 @@ def make_artistic_scannable_qr():
     img.paste(badge, (cx, cy), badge)
 
     # Save transparent PNG and JPG
-    output_png = '/Users/eric/dev/katr/2026/assets/katr_qr_artwork.png'
-    output_jpg = '/Users/eric/dev/katr/2026/assets/katr_qr_artwork.jpg'
+    output_png = 'katr_qr_artwork.png'
     
     img.save(output_png, format='PNG')
     
-    final_rgb = Image.new('RGB', img.size, (7, 14, 27))
-    final_rgb.paste(img, mask=img.split()[3])
-    final_rgb.save(output_jpg, quality=98)
-    print("Artistic Scannable QR code successfully updated with transparent background!")
+    
 
 if __name__ == '__main__':
     make_artistic_scannable_qr()

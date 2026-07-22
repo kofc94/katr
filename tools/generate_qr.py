@@ -53,11 +53,11 @@ def create_scannable_horse_qr():
     except Exception:
         font = ImageFont.load_default()
 
-    bbox = draw.textbbox((0, 0), "KATR", font=font)
+    bbox = draw.textbbox((0, 0), "KatR", font=font)
     tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
     tx = (logo_size - tw) // 2
     ty = (logo_size - th) // 2
-    draw.text((tx, ty), "KATR", fill="#fbbf24", font=font)
+    draw.text((tx, ty), "KatR", fill="#fbbf24", font=font)
 
     # Calculate position to paste badge in center of QR
     pos_x = (qr_w - logo_size) // 2
@@ -65,7 +65,7 @@ def create_scannable_horse_qr():
     qr_img.paste(badge, (pos_x, pos_y), badge)
 
     # Save transparent PNG QR code to assets
-    qr_img.save('/Users/eric/dev/katr/2026/assets/katr_qr_code.png', format='PNG')
+    qr_img.save('katr_qr_code.png', format='PNG')
     print("Transparent scannable QR code successfully generated at 2026/assets/katr_qr_code.png!")
 
 if __name__ == '__main__':
