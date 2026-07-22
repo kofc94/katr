@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K'night at the Races 2026 | Knights of Columbus Council #94</title>
+  <meta name="description" content="Join Knights of Columbus Council #94 for the annual K'night at the Races fundraiser on Saturday, September 12, 2026 at Heritage Hall in Lexington! Video horse racing, dinner, silent auction, and family fun.">
+  <meta property="og:title" content="K'night at the Races 2026">
+  <meta property="og:description" content="Annual Charity Video Horse Racing & Gala presented by Knights of Columbus Council #94 at Heritage Hall, Lexington. Get your tickets & support local charities!">
+  <meta property="og:url" content="https://katr.org/">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐎</text></svg>">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <span>🐎 K'NIGHT AT THE RACES</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#tickets" class="nav-link">Tickets</a></li>
+          <li><a href="#sponsors" class="nav-link">Our Sponsors</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#schedule" class="nav-link">Schedule</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a href="#tickets" class="btn-primary">
+          <span>🎟️ Get Tickets</span>
+        </a>
+        <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Navigation">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <div class="event-tag">
+        <span>🛡️ Presented by Knights of Columbus Council #94</span>
+      </div>
+
+      <h1 class="hero-title">K'NIGHT AT THE RACES 2026</h1>
+      <p class="hero-subtitle">
+        An unforgettable evening of thrilling horse racing, delicious dinner, wagering, silent auctions, and community fellowship—all for local charity.
+      </p>
+
+      <!-- Official Graphic Showcase -->
+      <div class="hero-graphic-card">
+        <img src="assets/official_graphic.jpg" alt="Knights of Columbus K'night at the Races Official Graphic" class="official-graphic-img">
+      </div>
+
+      <div class="hero-meta-grid">
+        <div class="meta-card">
+          <div class="meta-icon">📅</div>
+          <div class="meta-label">Date</div>
+          <div class="meta-value">Sat, Sep 12, 2026</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">⏰</div>
+          <div class="meta-label">Time</div>
+          <div class="meta-value">6:00 PM EST</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">📍</div>
+          <div class="meta-label">Venue</div>
+          <div class="meta-value">Heritage Hall</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">177 Bedford St, Lexington</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">🏆</div>
+          <div class="meta-label">Races</div>
+          <div class="meta-value">5 Action Races</div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#tickets" class="btn-primary" style="padding: 0.85rem 2rem; font-size: 1.1rem;">
+          <span>🎟️ Get Tickets Online</span>
+        </a>
+        <a href="#sponsors" class="btn-secondary" style="padding: 0.85rem 1.75rem; font-size: 1.05rem;">
+          <span>⭐ Sponsor an Area</span>
+        </a>
+      </div>
+
+      <!-- Live Countdown -->
+      <div class="countdown-box">
+        <div class="countdown-title">Race Night Countdown</div>
+        <div class="timer-grid">
+          <div class="timer-item">
+            <span class="timer-val" id="timerDays">00</span>
+            <span class="timer-unit">Days</span>
+          </div>
+          <div class="timer-item">
+            <span class="timer-val" id="timerHours">00</span>
+            <span class="timer-unit">Hours</span>
+          </div>
+          <div class="timer-item">
+            <span class="timer-val" id="timerMinutes">00</span>
+            <span class="timer-unit">Minutes</span>
+          </div>
+          <div class="timer-item">
+            <span class="timer-val" id="timerSeconds">00</span>
+            <span class="timer-unit">Seconds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Highlights -->
+  <section id="about" class="section">
+    <div class="section-header">
+      <div class="section-tag">An Exciting Tradition</div>
+      <h2 class="section-title">What is K'night at the Races?</h2>
+      <p class="section-desc">
+        Join us at Heritage Hall (177 Bedford St, Lexington) for an exciting community gala! Place your bets and cheer on your favorite horses projected onto the big screen with full video and audio commentary.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏇</div>
+        <h3 class="feature-title">5 Action Races</h3>
+        <p class="feature-desc">Watch thoroughbred horse races on the giant screen! Bet on your favorites with play money and win real cash & raffle prizes.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🍽️</div>
+        <h3 class="feature-title">Buffet Dinner & Drinks</h3>
+        <p class="feature-desc">Enjoy a delicious catered dinner, snacks, signature Derby drinks, beer, and wine at our cash bar.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3 class="feature-title">Kid's Activity Table</h3>
+        <p class="feature-desc">Fun crafts, games, and creative activities designed specifically for children and families attending the event.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎁</div>
+        <h3 class="feature-title">Silent Auction & Raffles</h3>
+        <p class="feature-desc">Bid on luxury gift baskets, sports memorabilia, restaurant gift certificates, and win 50/50 cash raffles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tickets & Zeffy Embed Section -->
+  <section id="tickets" class="section">
+    <div class="section-header">
+      <div class="section-tag">Online Registration & Checkout</div>
+      <h2 class="section-title">Get Tickets Online</h2>
+      <p class="section-desc">
+        100% of proceeds benefit Knights of Columbus Council #94 local charities. Registration powered securely by Zeffy with zero transaction fees.
+      </p>
+    </div>
+
+    <!-- Zeffy Embedded Form -->
+    <div id="zeffy-form" class="zeffy-wrapper">
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent-gold-light);">
+          🔒 Secure Online Ticket Checkout
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Select your tickets below to complete your registration:
+        </p>
+      </div>
+
+      <!-- User Provided Zeffy Embed Code -->
+      <div>
+        <div data-zeffy-embed data-form-url="/embed/ticketing/2026-knight-at-the-races"></div>
+        <div data-zeffy-embed-fallback style="display:none;">
+          <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
+            <iframe title='Donation form powered by Zeffy' style='position: absolute; border: 0; top:0;left:0;bottom:0;right:0;width:100%;height:100%' data-zeffy-embed-src='https://www.zeffy.com/embed/ticketing/2026-knight-at-the-races' allowpaymentrequest allowTransparency="true"></iframe>
+          </div>
+        </div>
+        <script
+          src="https://www.zeffy.com/embed/v2/zeffy-embed.js"
+          onerror="document.querySelectorAll('[data-zeffy-embed-fallback]').forEach(function(el){el.style.display='block';el.querySelectorAll('iframe[data-zeffy-embed-src]').forEach(function(f){f.src=f.getAttribute('data-zeffy-embed-src');});});">
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="section" style="background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border-gold);">
+    <div class="section-header">
+      <div class="section-tag">Easy Step-by-Step Guide</div>
+      <h2 class="section-title">How The Evening Works</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">1️⃣</div>
+        <h3 class="feature-title">Arrive & Check In</h3>
+        <p class="feature-desc">Doors open at 6:00 PM at Heritage Hall (177 Bedford St, Lexington). Pick up your official program and explore the venue.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">2️⃣</div>
+        <h3 class="feature-title">Enjoy Buffet Dinner</h3>
+        <p class="feature-desc">Relax and enjoy a hot buffet dinner with friends, family, and fellow community members before the races begin.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">3️⃣</div>
+        <h3 class="feature-title">Place Your Wagers</h3>
+        <p class="feature-desc">Wagering windows open before each of the 5 races. Place $2 bets on any horse in the field to boost your odds of winning!</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">4️⃣</div>
+        <h3 class="feature-title">Cheer & Collect Winnings</h3>
+        <p class="feature-desc">Cheer on your horses on the big screen. Winning tickets collect cash payouts right after each race result is declared official!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thank You to Our Sponsors Section -->
+  <section id="sponsors" class="section">
+    <div class="section-header">
+      <div class="section-tag">Community Partnerships</div>
+      <h2 class="section-title">Thank You to Our Sponsors</h2>
+      <p class="section-desc">
+        We are deeply grateful to our community partners who make K'night at the Races possible. 100% of event proceeds directly fund Knights of Columbus Council #94 local charities.
+      </p>
+    </div>
+
+    <!-- 
+      HOW TO UPDATE SPONSORS WHEN SECURED:
+      -----------------------------------------------------------------------
+      To activate a sponsor card when a sponsor is secured:
+      1. Change card container class to: class="sponsor-card secured"
+      2. Update badge to: <div class="sponsor-badge confirmed">Confirmed Sponsor</div>
+      3. In <div class="sponsor-logo-box">, replace .logo-placeholder with:
+         <img src="assets/sponsors/sponsor-logo.png" alt="Sponsor Name" class="sponsor-logo-img">
+      4. Update .sponsor-name with actual business/sponsor name.
+      5. Update .sponsor-desc with sponsor details or bio.
+      6. Update .sponsor-meta with contact email/phone.
+      7. In .sponsor-actions, provide website link button:
+         <a href="https://sponsor-website.com" target="_blank" rel="noopener" class="sponsor-website-link">
+           🌐 Visit Sponsor Website
+         </a>
+      -----------------------------------------------------------------------
+    -->
+
+    <div class="sponsors-grid">
+
+      <!-- 1. Check-In Table Sponsor -->
+      <div class="sponsor-card open-opportunity">
+        <div class="sponsor-badge available">Sponsorship Open</div>
+        <div class="sponsor-category-title">Check-In Table Sponsor</div>
+        
+        <div class="sponsor-logo-box">
+          <div class="logo-placeholder">
+            <span class="placeholder-icon">📋</span>
+            <span class="placeholder-text">Your Logo Here</span>
+          </div>
+        </div>
+
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">Check-In Table</h3>
+          <p class="sponsor-desc">
+            Welcome every attendee as they arrive! Includes prominent signage and promotional banner placement right at the event entry and registration table.
+          </p>
+          
+          <div class="sponsor-meta">
+            <div class="meta-item"><span class="meta-icon">📍</span> Location: Welcome & Entry Desk</div>
+            <div class="meta-item"><span class="meta-icon">✉️</span> Contact: <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a></div>
+          </div>
+        </div>
+
+        <div class="sponsor-actions">
+          <a href="mailto:sponsorships@lexingtonkofc.org?subject=Inquiry%3A%20Check-In%20Table%20Sponsorship" class="btn-primary sponsor-btn">
+            <span>⭐ Become This Sponsor</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. Horse Race Ticket Window Sponsor -->
+      <div class="sponsor-card open-opportunity">
+        <div class="sponsor-badge available">Sponsorship Open</div>
+        <div class="sponsor-category-title">Horse Race Ticket Window Sponsor</div>
+        
+        <div class="sponsor-logo-box">
+          <div class="logo-placeholder">
+            <span class="placeholder-icon">🎟️</span>
+            <span class="placeholder-text">Your Logo Here</span>
+          </div>
+        </div>
+
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">Ticket Window</h3>
+          <p class="sponsor-desc">
+            High-traffic visibility at the race wagering windows where every guest places their bets! Includes custom branded counters and signage.
+          </p>
+          
+          <div class="sponsor-meta">
+            <div class="meta-item"><span class="meta-icon">📍</span> Location: Wagering & Betting Windows</div>
+            <div class="meta-item"><span class="meta-icon">✉️</span> Contact: <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a></div>
+          </div>
+        </div>
+
+        <div class="sponsor-actions">
+          <a href="mailto:sponsorships@lexingtonkofc.org?subject=Inquiry%3A%20Ticket%20Window%20Sponsorship" class="btn-primary sponsor-btn">
+            <span>⭐ Become This Sponsor</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. Bar Sponsor -->
+      <div class="sponsor-card open-opportunity">
+        <div class="sponsor-badge available">Sponsorship Open</div>
+        <div class="sponsor-category-title">Bar Sponsor</div>
+        
+        <div class="sponsor-logo-box">
+          <div class="logo-placeholder">
+            <span class="placeholder-icon">🍻</span>
+            <span class="placeholder-text">Your Logo Here</span>
+          </div>
+        </div>
+
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">Bar & Refreshment Station</h3>
+          <p class="sponsor-desc">
+            Sponsor the central social hub of the event! Includes main bar area banner, logo placement on drink menus, and special announcements.
+          </p>
+          
+          <div class="sponsor-meta">
+            <div class="meta-item"><span class="meta-icon">📍</span> Location: Main Hall Bar & Lounge</div>
+            <div class="meta-item"><span class="meta-icon">✉️</span> Contact: <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a></div>
+          </div>
+        </div>
+
+        <div class="sponsor-actions">
+          <a href="mailto:sponsorships@lexingtonkofc.org?subject=Inquiry%3A%20Bar%20Sponsorship" class="btn-primary sponsor-btn">
+            <span>⭐ Become This Sponsor</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4. Raffle Table Sponsor -->
+      <div class="sponsor-card open-opportunity">
+        <div class="sponsor-badge available">Sponsorship Open</div>
+        <div class="sponsor-category-title">Raffle Table Sponsor</div>
+        
+        <div class="sponsor-logo-box">
+          <div class="logo-placeholder">
+            <span class="placeholder-icon">🎁</span>
+            <span class="placeholder-text">Your Logo Here</span>
+          </div>
+        </div>
+
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">Raffle & Silent Auction Table</h3>
+          <p class="sponsor-desc">
+            Prominently featured where attendees browse and bid on high-value gift baskets and raffle items. Includes tabletop display & program recognition.
+          </p>
+          
+          <div class="sponsor-meta">
+            <div class="meta-item"><span class="meta-icon">📍</span> Location: Auction & Prize Center</div>
+            <div class="meta-item"><span class="meta-icon">✉️</span> Contact: <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a></div>
+          </div>
+        </div>
+
+        <div class="sponsor-actions">
+          <a href="mailto:sponsorships@lexingtonkofc.org?subject=Inquiry%3A%20Raffle%20Table%20Sponsorship" class="btn-primary sponsor-btn">
+            <span>⭐ Become This Sponsor</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 5. Kids Activity Table Sponsor -->
+      <div class="sponsor-card open-opportunity">
+        <div class="sponsor-badge available">Sponsorship Open</div>
+        <div class="sponsor-category-title">Kids Activity Table Sponsor</div>
+        
+        <div class="sponsor-logo-box">
+          <div class="logo-placeholder">
+            <span class="placeholder-icon">🎨</span>
+            <span class="placeholder-text">Your Logo Here</span>
+          </div>
+        </div>
+
+        <div class="sponsor-info">
+          <h3 class="sponsor-name">Kids Activity Table</h3>
+          <p class="sponsor-desc">
+            Support engaging craft projects, games, and entertainment for children attending with families. Includes dedicated activity banner & family recognition.
+          </p>
+          
+          <div class="sponsor-meta">
+            <div class="meta-item"><span class="meta-icon">📍</span> Location: Family Fun & Activity Zone</div>
+            <div class="meta-item"><span class="meta-icon">✉️</span> Contact: <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a></div>
+          </div>
+        </div>
+
+        <div class="sponsor-actions">
+          <a href="mailto:sponsorships@lexingtonkofc.org?subject=Inquiry%3A%20Kids%20Activity%20Table%20Sponsorship" class="btn-primary sponsor-btn">
+            <span>⭐ Become This Sponsor</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section id="schedule" class="section">
+    <div class="section-header">
+      <div class="section-tag">Race Night Timeline</div>
+      <h2 class="section-title">Evening Schedule</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">6:00 PM</div>
+        <h3 class="timeline-title">Doors Open & Registration</h3>
+        <p class="timeline-desc">Check-in at Heritage Hall (177 Bedford St), pick up your program, explore the silent auction, and head to the cash bar.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">6:30 PM</div>
+        <h3 class="timeline-title">Buffet Dinner Served</h3>
+        <p class="timeline-desc">Enjoy a delicious dinner buffet and appetizers with your table.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">7:15 PM</div>
+        <h3 class="timeline-title">First Post / Race 1 Begins</h3>
+        <p class="timeline-desc">The trumpet sounds! Wagering window opens for Race 1.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">8:45 PM</div>
+        <h3 class="timeline-title">Silent Auction Close & 50/50 Raffle</h3>
+        <p class="timeline-desc">Final bids for silent auction items and announcement of half-the-pot raffle winner.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">9:15 PM</div>
+        <h3 class="timeline-title">Grand Finale Race 5</h3>
+        <p class="timeline-desc">Final feature race of the night with the biggest payout!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section">
+    <div class="section-header">
+      <div class="section-tag">Got Questions?</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Where is the event located?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          The event takes place at <strong>Heritage Hall, 177 Bedford St, Lexington, MA</strong>. Doors open at 6:00 PM.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What is the dress code?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          Derby attire is enthusiastically encouraged! Fancy hats, bow ties, and colorful outfits make the evening festive, though smart casual dress is also welcome.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Are children and families welcome?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          Yes! We have a dedicated Kid's Activity Table featuring crafts, games, and entertainment for children and families.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How can my business become an event sponsor?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          We offer sponsorships for key event areas including the Check-In Table, Ticket Windows, Bar, Raffle Table, and Kids Activity Table. Contact our team at <a href="mailto:sponsorships@lexingtonkofc.org">sponsorships@lexingtonkofc.org</a> to secure your sponsorship package!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Do I need cash for betting?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          Yes, race wagering windows use cash ($2 bets). We will have change stations on site, but bringing small cash bills is recommended!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Where do event proceeds go?</span>
+          <span>▼</span>
+        </button>
+        <div class="faq-answer">
+          100% of proceeds directly fund Knights of Columbus Council #94 charitable initiatives, including local food pantries, youth sports teams, community scholarships, and holiday assistance programs.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-brand">🐎 KATR.ORG</div>
+        <p class="footer-desc">
+          Official home of the annual K'night at the Races fundraiser hosted by Lexington Knights of Columbus Council #94 at Heritage Hall, 177 Bedford St, Lexington.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#about">About Event</a></li>
+          <li><a href="#tickets">Get Tickets</a></li>
+          <li><a href="#sponsors">Our Sponsors</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Lexington KofC #94</h4>
+        <ul>
+          <li><a href="https://lexingtonkofc.org" target="_blank" rel="noopener">Lexington KofC Website</a></li>
+          <li><a href="https://lexingtonkofc.org/news-events" target="_blank" rel="noopener">News & Events</a></li>
+          <li><a href="mailto:sponsorships@lexingtonkofc.org">Sponsorship Inquiries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col" style="text-align: center;">
+        <h4>Scan & Share</h4>
+        <img src="assets/katr_qr_code.png" alt="Scan QR Code for katr.org" style="width: 120px; height: 120px; border-radius: var(--radius-sm); border: 2px solid var(--accent-gold); margin-bottom: 0.5rem; background: transparent; padding: 4px;">
+        <p style="font-size: 0.78rem; color: var(--text-muted);">Scan to visit katr.org</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Event Archives</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Select Event Year:</p>
+        <select id="yearSelect" class="year-selector">
+          <option value="2026" selected>2026 (Current Event)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Knights of Columbus Council #94. All rights reserved.</div>
+      <div>Hosted on S3 & CloudFront via OpenTofu</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

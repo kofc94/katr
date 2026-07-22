@@ -1,0 +1,7 @@
+# Example tofu.tfvars file
+domain_name            = "katr.org"
+subdomains             = ["www.katr.org"]
+current_year           = "2026"
+aws_region             = "us-east-1"
+environment            = "production"
+enable_route53_records = true
