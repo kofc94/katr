@@ -18,6 +18,15 @@ if [ ! -d "$YEAR_DIR" ]; then
   exit 1
 fi
 
+# Build React application if package.json exists
+if [ -f "$YEAR_DIR/package.json" ]; then
+  echo "[0/4] Building React application in '$YEAR_DIR'..."
+  (cd "$YEAR_DIR" && npm install && npm run build)
+  BUILD_DIR="$YEAR_DIR/dist"
+else
+  BUILD_DIR="$YEAR_DIR"
+fi
+
 cd "$SCRIPT_DIR"
 
 # 1. Initialize OpenTofu if needed
@@ -38,10 +47,10 @@ if [ -z "$BUCKET_NAME" ]; then
 fi
 
 echo "[2/4] Uploading content for year '$YEAR' to s3://$BUCKET_NAME/$YEAR/..."
-aws s3 sync "$YEAR_DIR" "s3://$BUCKET_NAME/$YEAR/" --delete
+aws s3 sync "$BUILD_DIR" "s3://$BUCKET_NAME/$YEAR/" --delete
 
 echo "[3/4] Uploading root redirect fallback..."
-aws s3 cp "$YEAR_DIR/index.html" "s3://$BUCKET_NAME/index.html" --metadata-directive REPLACE
+aws s3 cp "$BUILD_DIR/index.html" "s3://$BUCKET_NAME/index.html" --metadata-directive REPLACE
 
 if [ -n "$DISTRIBUTION_ID" ]; then
   echo "[4/4] Invalidating CloudFront cache for distribution $DISTRIBUTION_ID..."
