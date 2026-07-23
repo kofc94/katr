@@ -26,11 +26,11 @@ export default function GameRibbon({ donateHref = '#tickets' }) {
           type="button"
           className="game-ribbon-band"
           onClick={() => setOpen(true)}
-          title="Can't wait for race day? Play Ride for the Cause!"
+          title="Can't wait for the big day? Play Ride for the Cause!"
           aria-label="Play the Ride for the Cause game"
         >
-          <span className="ribbon-l1">🐎 Can’t wait? Play</span>
-          <span className="ribbon-l2">Ride for the Cause!</span>
+          <span className="ribbon-l1">🐎 Can’t wait for the big day?</span>
+          <span className="ribbon-l2">Play Ride for the Cause!</span>
         </button>
       </div>
 
