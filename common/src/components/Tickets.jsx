@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function Tickets({
-  zeffyFormUrl = '/embed/ticketing/2026-knight-at-the-races',
-  zeffyEmbedSrc = 'https://www.zeffy.com/embed/ticketing/2026-knight-at-the-races',
-}) {
+export default function Tickets({ zeffyFormUrl, zeffyEmbedSrc }) {
   useEffect(() => {
     const scriptId = 'zeffy-embed-script';
     let script = document.getElementById(scriptId);

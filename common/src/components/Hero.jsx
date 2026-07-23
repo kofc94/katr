@@ -3,15 +3,15 @@ import Countdown from './Countdown';
 import defaultOfficialGraphic from '../assets/official_graphic.jpg';
 
 export default function Hero({
-  title = "K'NIGHT AT THE RACES 2026",
-  tagline = "An unforgettable evening of live wooden horse racing jockeyed by guests around the track, delicious dinner, wagering, silent auctions, and community fellowship!",
-  presenter = "Knights of Columbus Council #94",
-  dateText = "Sat, Sep 12, 2026",
-  timeText = "6:00 PM EST",
-  venueName = "Heritage Hall",
-  venueAddress = "177 Bedford St, Lexington",
-  racesCountText = "5 Action Races",
-  targetDate = "2026-09-12T18:00:00-04:00",
+  title,
+  tagline,
+  presenter,
+  dateText,
+  timeText,
+  venueName,
+  venueAddress,
+  racesCountText,
+  targetDate,
   graphicImgSrc = defaultOfficialGraphic,
 }) {
   return (

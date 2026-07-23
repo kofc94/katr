@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Countdown({ targetDate = '2026-09-12T18:00:00-04:00', title = 'Race Night Countdown' }) {
+export default function Countdown({ targetDate, title = 'Race Night Countdown' }) {
   const [timeLeft, setTimeLeft] = useState({
     days: '00',
     hours: '00',
@@ -9,6 +9,7 @@ export default function Countdown({ targetDate = '2026-09-12T18:00:00-04:00', ti
   });
 
   useEffect(() => {
+    if (!targetDate) return;
     const eventTime = new Date(targetDate).getTime();
 
     const updateCountdown = () => {
@@ -38,24 +39,26 @@ export default function Countdown({ targetDate = '2026-09-12T18:00:00-04:00', ti
     return () => clearInterval(interval);
   }, [targetDate]);
 
+  if (!targetDate) return null;
+
   return (
     <div className="countdown-box">
       <div className="countdown-title">{title}</div>
       <div className="timer-grid">
         <div className="timer-item">
-          <span className="timer-val" id="timerDays">{timeLeft.days}</span>
+          <span className="timer-val">{timeLeft.days}</span>
           <span className="timer-unit">Days</span>
         </div>
         <div className="timer-item">
-          <span className="timer-val" id="timerHours">{timeLeft.hours}</span>
+          <span className="timer-val">{timeLeft.hours}</span>
           <span className="timer-unit">Hours</span>
         </div>
         <div className="timer-item">
-          <span className="timer-val" id="timerMinutes">{timeLeft.minutes}</span>
+          <span className="timer-val">{timeLeft.minutes}</span>
           <span className="timer-unit">Minutes</span>
         </div>
         <div className="timer-item">
-          <span className="timer-val" id="timerSeconds">{timeLeft.seconds}</span>
+          <span className="timer-val">{timeLeft.seconds}</span>
           <span className="timer-unit">Seconds</span>
         </div>
       </div>
