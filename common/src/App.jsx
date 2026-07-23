@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Navbar,
   Hero,
@@ -10,13 +10,28 @@ import {
   Footer,
   GameRibbon,
 } from './components';
+import GameModal from './components/GameModal';
 import { eventConfig } from '@year/config/eventConfig';
 import Sponsors from '@year/components/Sponsors';
 
 export default function App() {
+  // The game can be launched from the desktop corner ribbon or the mobile
+  // hero banner, so the modal state lives here and both trigger it.
+  const [gameOpen, setGameOpen] = useState(false);
+  const openGame = () => setGameOpen(true);
+
+  useEffect(() => {
+    if (!gameOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [gameOpen]);
+
   return (
     <div className="app">
-      <GameRibbon donateHref="#tickets" />
+      <GameRibbon onPlay={openGame} />
       <Navbar />
       <main>
         <Hero
@@ -30,6 +45,7 @@ export default function App() {
           racesCountText={eventConfig.racesCountText}
           targetDate={eventConfig.targetDate}
           graphicImgSrc={eventConfig.graphicImgSrc}
+          onPlay={openGame}
         />
         <About
           venueName={eventConfig.venueName}
@@ -56,6 +72,7 @@ export default function App() {
         currentYear={eventConfig.year}
         availableYears={eventConfig.availableYears}
       />
+      {gameOpen && <GameModal onClose={() => setGameOpen(false)} donateHref="#tickets" />}
     </div>
   );
 }

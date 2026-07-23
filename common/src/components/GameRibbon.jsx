@@ -1,40 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import GameModal from './GameModal';
+import React from 'react';
 
 /**
- * Fixed diagonal ribbon in the top-right corner of the window. Clicking it
- * opens the fullscreen game modal. The game (and its assets) only mount once
- * the visitor opts in.
+ * Fixed diagonal ribbon in the top-right corner (desktop only — hidden on
+ * mobile via CSS, where the hero banner is shown instead). Clicking it invokes
+ * onPlay, which opens the shared game modal owned by App.
  */
-export default function GameRibbon({ donateHref = '#tickets' }) {
-  const [open, setOpen] = useState(false);
-
-  // lock page scroll while the modal is open
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-
+export default function GameRibbon({ onPlay }) {
   return (
-    <>
-      <div className="game-ribbon">
-        <button
-          type="button"
-          className="game-ribbon-band"
-          onClick={() => setOpen(true)}
-          title="Can't wait for the big day? Play Ride for the Cause!"
-          aria-label="Play the Ride for the Cause game"
-        >
-          <span className="ribbon-l1">🐎 Can’t wait for the big day?</span>
-          <span className="ribbon-l2">Play Ride for the Cause!</span>
-        </button>
-      </div>
-
-      {open && <GameModal onClose={() => setOpen(false)} donateHref={donateHref} />}
-    </>
+    <div className="game-ribbon">
+      <button
+        type="button"
+        className="game-ribbon-band"
+        onClick={onPlay}
+        title="Can't wait for the big day? Play Ride for the Cause!"
+        aria-label="Play the Ride for the Cause game"
+      >
+        <span className="ribbon-l1">🐎 Can’t wait for the big day?</span>
+        <span className="ribbon-l2">Play Ride for the Cause!</span>
+      </button>
+    </div>
   );
 }
