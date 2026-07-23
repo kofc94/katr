@@ -1,4 +1,4 @@
-export const eventConfig2026 = {
+export const eventConfig = {
   year: '2026',
   title: "K'NIGHT AT THE RACES 2026",
   tagline: "An unforgettable evening of live wooden horse racing jockeyed by guests around the track, delicious dinner, wagering, silent auctions, and community fellowship!",
