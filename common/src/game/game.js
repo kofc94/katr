@@ -217,39 +217,70 @@ export class Game {
   }
 
   drawBackground(ctx) {
-    // sky
+    // bright blue sky
     const sky = ctx.createLinearGradient(0, 0, 0, GROUND_Y);
-    sky.addColorStop(0, '#0b1830');
-    sky.addColorStop(1, '#1b3a5b');
+    sky.addColorStop(0, '#4aa8ec');
+    sky.addColorStop(1, '#c7ebff');
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, VIEW_W, GROUND_Y);
 
-    // rolling hills (slow parallax)
-    ctx.fillStyle = '#173b3a';
-    const hillOff = (this.worldX * 0.2) % 400;
-    for (let x = -hillOff; x < VIEW_W; x += 400) {
+    // sun
+    ctx.fillStyle = 'rgba(255, 244, 190, 0.95)';
+    ctx.beginPath();
+    ctx.arc(VIEW_W - 90, 72, 34, 0, Math.PI * 2);
+    ctx.fill();
+
+    // rolling green hills (slow parallax)
+    ctx.fillStyle = '#77c256';
+    const hillOff = (this.worldX * 0.15) % 400;
+    for (let x = -hillOff; x < VIEW_W + 400; x += 400) {
       ctx.beginPath();
-      ctx.arc(x + 120, GROUND_Y, 160, Math.PI, 0);
-      ctx.arc(x + 320, GROUND_Y, 120, Math.PI, 0);
+      ctx.arc(x + 120, GROUND_Y, 150, Math.PI, 0);
+      ctx.arc(x + 320, GROUND_Y, 110, Math.PI, 0);
       ctx.fill();
     }
 
-    // ground
-    ctx.fillStyle = '#3b2c17';
+    // trees (faster parallax than hills)
+    const treeOff = (this.worldX * 0.35) % 260;
+    for (let x = -treeOff; x < VIEW_W + 260; x += 260) {
+      this.drawTree(ctx, x + 60, GROUND_Y);
+      this.drawTree(ctx, x + 180, GROUND_Y - 4);
+    }
+
+    // dirt track
+    ctx.fillStyle = '#a06a3c';
     ctx.fillRect(0, GROUND_Y, VIEW_W, VIEW_H - GROUND_Y);
-    ctx.fillStyle = '#4a6b3a'; // grass strip along the top of the track
-    ctx.fillRect(0, GROUND_Y, VIEW_W, 8);
+    // grass fringe along the top of the track
+    ctx.fillStyle = '#5fb141';
+    ctx.fillRect(0, GROUND_Y, VIEW_W, 10);
 
     // white rail line just above the ground, scrolling with the world
-    ctx.strokeStyle = 'rgba(245,245,245,0.5)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.75)';
     ctx.lineWidth = 3;
     const dash = (this.worldX % 60);
     ctx.beginPath();
     for (let x = -dash; x < VIEW_W; x += 60) {
-      ctx.moveTo(x, GROUND_Y + 22);
-      ctx.lineTo(x + 34, GROUND_Y + 22);
+      ctx.moveTo(x, GROUND_Y + 24);
+      ctx.lineTo(x + 34, GROUND_Y + 24);
     }
     ctx.stroke();
+  }
+
+  drawTree(ctx, x, baseY) {
+    // trunk (base is hidden behind the track, drawn next)
+    ctx.fillStyle = '#7a4a26';
+    ctx.fillRect(x - 6, baseY - 44, 12, 46);
+    // leafy canopy
+    ctx.fillStyle = '#3f9e3a';
+    ctx.beginPath();
+    ctx.arc(x, baseY - 58, 26, 0, Math.PI * 2);
+    ctx.arc(x - 20, baseY - 46, 19, 0, Math.PI * 2);
+    ctx.arc(x + 20, baseY - 46, 19, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#5bc24d';
+    ctx.beginPath();
+    ctx.arc(x - 7, baseY - 66, 15, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   drawPlayer(ctx) {

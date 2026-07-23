@@ -32,6 +32,13 @@ GREEN = (86, 158, 74, 255)
 BLUE = (43, 91, 158, 255)
 CLEAR = (0, 0, 0, 0)
 
+# white horse (dark legs for contrast against a bright sky)
+HORSE_BODY = (247, 247, 244, 255)
+HORSE_OUTLINE = (120, 126, 138, 255)
+HORSE_LEG = (74, 52, 34, 255)
+HORSE_HOOF = (40, 30, 20, 255)
+HORSE_MANE = (110, 74, 44, 255)
+
 SS = 3  # supersample factor for anti-aliasing
 
 OUT_DIR = os.path.join(
@@ -58,46 +65,53 @@ def s(v):
 
 
 def draw_horse_frame(d, ox, legs_forward):
-    """Draw one gallop frame with top-left origin ox (in supersampled px)."""
-    # body
-    d.ellipse([ox + s(18), s(20), ox + s(74), s(52)], fill=BROWN, outline=BROWN_DARK, width=SS)
-    # hindquarters
-    d.ellipse([ox + s(58), s(16), ox + s(86), s(50)], fill=BROWN, outline=BROWN_DARK, width=SS)
+    """Draw one gallop frame. Drawn facing LEFT here; gen_horse mirrors each
+    frame so the final sprite faces RIGHT (the direction of travel). Origin ox
+    in supersampled px."""
+    # legs first (behind the body), with hooves, in a dark tone for contrast
+    lw = s(6)
+
+    def leg(x1, y1, x2, y2):
+        d.line([(ox + s(x1), s(y1)), (ox + s(x2), s(y2))], fill=HORSE_LEG, width=lw)
+        d.ellipse([ox + s(x2 - 3), s(y2 - 2), ox + s(x2 + 3), s(y2 + 4)], fill=HORSE_HOOF)
+
+    if legs_forward:
+        leg(30, 48, 22, 66); leg(46, 50, 52, 66); leg(66, 48, 60, 66); leg(78, 48, 86, 64)
+    else:
+        leg(30, 48, 34, 66); leg(46, 50, 40, 66); leg(66, 48, 72, 66); leg(78, 48, 74, 66)
+
+    # body + hindquarters
+    d.ellipse([ox + s(18), s(20), ox + s(74), s(52)], fill=HORSE_BODY, outline=HORSE_OUTLINE, width=SS)
+    d.ellipse([ox + s(58), s(16), ox + s(86), s(50)], fill=HORSE_BODY, outline=HORSE_OUTLINE, width=SS)
     # neck + head
     d.polygon([
         (ox + s(24), s(30)), (ox + s(10), s(6)),
         (ox + s(24), s(4)), (ox + s(34), s(26)),
-    ], fill=BROWN, outline=BROWN_DARK)
-    d.ellipse([ox + s(4), s(2), ox + s(26), s(20)], fill=BROWN, outline=BROWN_DARK, width=SS)
-    # ear + eye
-    d.polygon([(ox + s(18), s(4)), (ox + s(24), s(-4)), (ox + s(26), s(6))], fill=BROWN_DARK)
+    ], fill=HORSE_BODY, outline=HORSE_OUTLINE)
+    d.ellipse([ox + s(4), s(2), ox + s(26), s(20)], fill=HORSE_BODY, outline=HORSE_OUTLINE, width=SS)
+    # ear + eye + muzzle
+    d.polygon([(ox + s(18), s(4)), (ox + s(24), s(-4)), (ox + s(26), s(6))], fill=HORSE_OUTLINE)
     d.ellipse([ox + s(9), s(7), ox + s(14), s(12)], fill=NAVY)
+    d.ellipse([ox + s(4), s(12), ox + s(11), s(19)], fill=(210, 200, 190, 255))
     # mane + tail
-    d.line([(ox + s(22), s(2)), (ox + s(34), s(24))], fill=NAVY_SOFT, width=s(3))
-    d.line([(ox + s(84), s(20)), (ox + s(94), s(44))], fill=NAVY_SOFT, width=s(4))
+    d.line([(ox + s(22), s(2)), (ox + s(34), s(24))], fill=HORSE_MANE, width=s(4))
+    d.line([(ox + s(84), s(18)), (ox + s(94), s(44))], fill=HORSE_MANE, width=s(5))
     # gold saddle cloth
     d.rectangle([ox + s(40), s(22), ox + s(60), s(38)], fill=GOLD, outline=GOLD_DARK, width=SS)
-    # legs (two poses for the gallop cycle)
-    lw = s(5)
-    if legs_forward:
-        d.line([(ox + s(30), s(48)), (ox + s(22), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(46), s(50)), (ox + s(52), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(66), s(48)), (ox + s(60), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(78), s(48)), (ox + s(86), s(64))], fill=BROWN_DARK, width=lw)
-    else:
-        d.line([(ox + s(30), s(48)), (ox + s(34), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(46), s(50)), (ox + s(40), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(66), s(48)), (ox + s(72), s(66))], fill=BROWN_DARK, width=lw)
-        d.line([(ox + s(78), s(48)), (ox + s(74), s(66))], fill=BROWN_DARK, width=lw)
 
 
 def gen_horse():
-    # two-frame horizontal strip, each frame 96x72
+    # two-frame horizontal strip, each frame 96x72, mirrored to face right
     fw, fh, frames = 96, 72, 2
-    img, d = new_canvas(fw * frames, fh)
-    draw_horse_frame(d, 0, True)
-    draw_horse_frame(d, s(fw), False)
-    finish(img, fw * frames, fh, "horse.png")
+    strip = Image.new("RGBA", (fw * frames * SS, fh * SS), CLEAR)
+    for i, legs in enumerate((True, False)):
+        frame = Image.new("RGBA", (fw * SS, fh * SS), CLEAR)
+        draw_horse_frame(ImageDraw.Draw(frame), 0, legs)
+        frame = frame.transpose(Image.FLIP_LEFT_RIGHT)  # face right
+        strip.paste(frame, (i * fw * SS, 0))
+    out = strip.resize((fw * frames, fh), Image.LANCZOS)
+    out.save(os.path.join(OUT_DIR, "horse.png"))
+    print(f"  wrote horse.png ({fw * frames}x{fh})")
 
 
 def gen_fence():
