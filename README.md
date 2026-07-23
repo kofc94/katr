@@ -32,10 +32,11 @@ The site is built as a static multi-year website hosted on AWS, designed to main
                              ▼
                   ┌──────────────────────┐
                   │   Private S3 Bucket  │
-                  │ ├── 2026/            │
-                  │ ├── 2027/            │
-                  │ └── index.html       │
+                  │ ├── 2025/  (archive) │
+                  │ ├── 2026/  (current) │
+                  │ └── 2027/  (…)       │
                   └──────────────────────┘
+        (no root object — the edge function rewrites / to /<year>/)
 ```
 
 ### Key Components
@@ -52,7 +53,9 @@ The site is built as a static multi-year website hosted on AWS, designed to main
 
 ## Repository Structure
 
-- `2026/`: Static site files for the 2026 event (`index.html`, `css/`, `js/`, `assets/`)
+- `2026/`: React (Vite) app for the 2026 event — `index.html`, `src/` (year config + sponsor cards), `package.json`, `vite.config.js`. Builds to `2026/dist/`.
+- `common/`: Shared React source used by every year — the app shell (`src/main.jsx`, `src/App.jsx`, `src/index.css`), layout components (`src/components/`), the "Ride for the Cause" mini-game (`src/game/`), and shared assets (`src/assets/`). Resolved via the `@common` alias.
+- `tools/`: Standalone Python scripts for generating image assets (QR codes, game sprites). Not part of the build.
 - `platform/`: Infrastructure as Code (OpenTofu / Terraform) configuration
   - [`platform/main.tf`](file:///Users/eric/dev/katr/platform/main.tf): Terraform & AWS provider setup
   - [`platform/variables.tf`](file:///Users/eric/dev/katr/platform/variables.tf): Input variables (`current_year`, `domain_name`, `aws_region`, etc.)
@@ -70,15 +73,21 @@ The site is built as a static multi-year website hosted on AWS, designed to main
 
 Before deploying or updating the website, ensure you have the following installed and configured:
 
-1. **AWS CLI** (v2+): Installed and authenticated with permissions to modify S3, CloudFront, Route 53, and ACM.
+1. **Node.js** (v18+) **and npm**: Required to run and build the site (locally and inside `deploy.sh`).
+   ```bash
+   node --version && npm --version
+   ```
+2. **AWS CLI** (v2+): Installed and authenticated with permissions to modify S3, CloudFront, Route 53, and ACM.
    ```bash
    aws sts get-caller-identity
    ```
-2. **OpenTofu** (or **Terraform** >= 1.6.0):
+3. **OpenTofu** (or **Terraform** >= 1.6.0):
    ```bash
    tofu version  # or terraform version
    ```
-3. **Bash Shell**: For executing `platform/deploy.sh`.
+4. **Bash Shell**: For executing `platform/deploy.sh`.
+
+> Node.js/npm are needed only for local development and deployment (build tooling). Nothing server-side ships to visitors — the deployed site is fully static.
 
 ---
 
@@ -104,10 +113,12 @@ cd platform
 
 ### What `deploy.sh` Does:
 
-1. **Provision Infrastructure**: Checks if OpenTofu state exists; runs `tofu init` and `tofu apply` if needed.
-2. **Sync Event Content**: Uploads the `./<YEAR>` directory to `s3://<BUCKET_NAME>/<YEAR>/` using `aws s3 sync --delete`.
-3. **Upload Fallback Index**: Copies `./<YEAR>/index.html` to `s3://<BUCKET_NAME>/index.html`.
+1. **Build the React App**: Runs `npm install && npm run build` in `./<YEAR>`, producing static files in `./<YEAR>/dist`.
+2. **Provision Infrastructure**: Checks if OpenTofu state exists; runs `tofu init` and `tofu apply` if needed.
+3. **Sync Built Content**: Uploads `./<YEAR>/dist` to `s3://<BUCKET_NAME>/<YEAR>/` using `aws s3 sync --delete`.
 4. **Invalidate Cache**: Executes `aws cloudfront create-invalidation` to purge cached files across global edge locations.
+
+> Root traffic (`https://katr.org/`) is routed to the active year entirely by the CloudFront `katr-year-router` function (driven by `current_year`), so the deploy does **not** write a root `index.html`. Deploying an archive year (e.g. `./deploy.sh 2025`) therefore updates only that year's folder and never repoints the root.
 
 ---
 
