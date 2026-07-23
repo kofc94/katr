@@ -13,6 +13,7 @@ export default function Hero({
   racesCountText,
   targetDate,
   graphicImgSrc = defaultOfficialGraphic,
+  onPlay,
 }) {
   return (
     <section className="hero">
@@ -35,6 +36,19 @@ export default function Hero({
               className="official-graphic-img"
             />
           </div>
+        )}
+
+        {/* Mobile-only game CTA (desktop uses the corner ribbon) */}
+        {onPlay && (
+          <button
+            type="button"
+            className="game-hero-ribbon"
+            onClick={onPlay}
+            aria-label="Play the Ride for the Cause game"
+          >
+            🐎 Play “Ride for the Cause”!
+            <span className="hero-ribbon-sub">Can’t wait for the big day? Take a quick ride.</span>
+          </button>
         )}
 
         <div className="hero-meta-grid">
