@@ -977,14 +977,14 @@ footer {
   left: -41px;
   top: 49px;
   width: 366px;
-  padding: 12px 0;
+  padding: 10px 0;
   transform: rotate(45deg);
   background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
   color: var(--bg-primary);
   border: 1px solid var(--accent-gold-dark);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   text-align: center;
-  line-height: 1.18;
+  line-height: 1.2;
   cursor: pointer;
   pointer-events: auto;
 }
@@ -1000,14 +1000,16 @@ footer {
 
 .game-ribbon-band .ribbon-l1 {
   display: block;
-  font-size: 0.98rem;
+  white-space: nowrap; /* keep on one line so it stays within the visible strip */
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
 .game-ribbon-band .ribbon-l2 {
   display: block;
+  white-space: nowrap;
   font-family: var(--font-serif);
-  font-size: 1.28rem;
+  font-size: 0.92rem;
   font-weight: 800;
 }
 
