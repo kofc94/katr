@@ -9,4 +9,4 @@ export { default as BaseSponsorCard } from './sponsors/BaseSponsorCard';
 export { default as Schedule } from './Schedule';
 export { default as FAQ } from './FAQ';
 export { default as Footer } from './Footer';
-export { default as GameSection } from './GameSection';
+export { default as GameRibbon } from './GameRibbon';

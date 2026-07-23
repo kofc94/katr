@@ -8,7 +8,7 @@ import {
   Schedule,
   FAQ,
   Footer,
-  GameSection,
+  GameRibbon,
 } from './components';
 import { eventConfig } from '@year/config/eventConfig';
 import Sponsors from '@year/components/Sponsors';
@@ -16,6 +16,7 @@ import Sponsors from '@year/components/Sponsors';
 export default function App() {
   return (
     <div className="app">
+      <GameRibbon donateHref="#tickets" />
       <Navbar />
       <main>
         <Hero
@@ -45,7 +46,6 @@ export default function App() {
           raceCount={eventConfig.raceCount}
         />
         <Sponsors />
-        <GameSection donateHref="#tickets" />
         <Schedule
           venueName={eventConfig.venueName}
           venueAddress={eventConfig.venueAddress}

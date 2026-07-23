@@ -18,7 +18,6 @@ export default function Navbar({ ctaText = '🎟️ Get Tickets', ctaHref = '#ti
             <li><a href="#about" className="nav-link" onClick={closeNav}>About</a></li>
             <li><a href="#tickets" className="nav-link" onClick={closeNav}>Tickets</a></li>
             <li><a href="#sponsors" className="nav-link" onClick={closeNav}>Our Sponsors</a></li>
-            <li><a href="#game" className="nav-link" onClick={closeNav}>Play 🐎</a></li>
             <li><a href="#how-it-works" className="nav-link" onClick={closeNav}>How It Works</a></li>
             <li><a href="#schedule" className="nav-link" onClick={closeNav}>Schedule</a></li>
             <li><a href="#faq" className="nav-link" onClick={closeNav}>FAQ</a></li>
