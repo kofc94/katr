@@ -963,7 +963,7 @@ footer {
    within the main content frame rather than straddling the header. */
 .game-ribbon {
   position: fixed;
-  top: 64px; /* clears the fixed navbar (~64px tall) */
+  top: 84px; /* sits comfortably below the fixed navbar (~66px tall) */
   right: -10px;
   width: 244px;
   height: 244px;
@@ -1011,24 +1011,25 @@ footer {
   font-weight: 800;
 }
 
-/* slightly smaller on phones so it takes less of the corner */
+/* On phones show a smaller, single-line ribbon: hide the "Can't wait…" line
+   and keep just "Play Ride for the Cause!". */
 @media (max-width: 560px) {
   .game-ribbon {
-    top: 58px;
-    width: 196px;
-    height: 196px;
+    top: 78px;
+    width: 168px;
+    height: 168px;
   }
   .game-ribbon-band {
-    top: 39px;
-    left: -33px;
-    width: 294px;
-    padding: 9px 0;
+    top: 34px;
+    left: -28px;
+    width: 252px;
+    padding: 8px 0;
   }
   .game-ribbon-band .ribbon-l1 {
-    font-size: 0.74rem;
+    display: none;
   }
   .game-ribbon-band .ribbon-l2 {
-    font-size: 0.94rem;
+    font-size: 0.92rem;
   }
 }
 
