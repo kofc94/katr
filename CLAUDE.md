@@ -33,7 +33,7 @@ Vite path aliases (in each year's `vite.config.js`) wire the two halves together
 - `@common` → `../common/src`
 - `@year` → `./src`
 
-`common/App.jsx` pulls year data via `@year/config/eventConfig` and `@year/components/Sponsors`, while year-specific code pulls shared pieces via `@common/components`. Each year's `index.html` sets `<script src="../common/src/main.jsx">` as the entry point.
+`common/App.jsx` pulls year data via `@year/config/eventConfig` and `@year/components/Sponsors`, while year-specific code pulls shared pieces via `@common/components`. Each year's `index.html` loads a thin in-root entry (`<script src="/src/main.jsx">`) that just does `import '@common/main.jsx'`; the shared bootstrap then renders `App`. The entry must sit inside the year folder (the Vite root) for `npm run dev` to serve it — hence the wrapper — and `vite.config.js` sets `server.fs.allow` to the repo root so the dev server can serve the shared `common/` modules.
 
 Note: a `BaseSponsorCard.jsx` exists in both `common/` and `2026/src/components/sponsors/`. Year sponsor cards import the shared one via `@common/components`; treat the common copy as canonical.
 
