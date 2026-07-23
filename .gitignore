@@ -1,3 +1,9 @@
+# Node / Vite build
+node_modules/
+dist/
+dist-ssr/
+*.local
+
 # OpenTofu / Terraform
 .terraform/
 *.tfstate
