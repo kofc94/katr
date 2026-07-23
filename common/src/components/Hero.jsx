@@ -1,5 +1,6 @@
 import React from 'react';
 import Countdown from './Countdown';
+import defaultOfficialGraphic from '../assets/official_graphic.jpg';
 
 export default function Hero({
   title = "K'NIGHT AT THE RACES 2026",
@@ -11,7 +12,7 @@ export default function Hero({
   venueAddress = "177 Bedford St, Lexington",
   racesCountText = "5 Action Races",
   targetDate = "2026-09-12T18:00:00-04:00",
-  graphicImgSrc = "assets/official_graphic.jpg",
+  graphicImgSrc = defaultOfficialGraphic,
 }) {
   return (
     <section className="hero">

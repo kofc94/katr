@@ -66,7 +66,6 @@ def create_scannable_horse_qr():
 
     # Save transparent PNG QR code to assets
     qr_img.save('katr_qr_code.png', format='PNG')
-    print("Transparent scannable QR code successfully generated at 2026/assets/katr_qr_code.png!")
 
 if __name__ == '__main__':
     create_scannable_horse_qr()

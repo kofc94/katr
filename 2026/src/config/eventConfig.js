@@ -10,7 +10,6 @@ export const eventConfig2026 = {
   racesCountText: "5 Action Races",
   raceCount: 5,
   targetDate: "2026-09-12T18:00:00-04:00",
-  graphicImgSrc: "assets/official_graphic.jpg",
   zeffyFormUrl: "/embed/ticketing/2026-knight-at-the-races",
   zeffyEmbedSrc: "https://www.zeffy.com/embed/ticketing/2026-knight-at-the-races",
 };

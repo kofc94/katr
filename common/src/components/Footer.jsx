@@ -1,8 +1,9 @@
 import React from 'react';
+import defaultQrCode from '../assets/katr_qr_code.png';
 
 export default function Footer({
   currentYear = '2026',
-  qrCodeSrc = 'assets/katr_qr_code.png',
+  qrCodeSrc = defaultQrCode,
   availableYears = ['2026'],
 }) {
   const handleYearChange = (e) => {
