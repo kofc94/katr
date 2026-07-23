@@ -32,6 +32,7 @@ export default function App() {
         <About
           venueName={eventConfig.venueName}
           venueAddress={eventConfig.venueAddress}
+          racesText={eventConfig.racesCountText}
         />
         <Tickets
           zeffyFormUrl={eventConfig.zeffyFormUrl}
@@ -49,7 +50,10 @@ export default function App() {
         />
         <FAQ />
       </main>
-      <Footer currentYear={eventConfig.year} />
+      <Footer
+        currentYear={eventConfig.year}
+        availableYears={eventConfig.availableYears}
+      />
     </div>
   );
 }

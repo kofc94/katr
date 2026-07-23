@@ -1,10 +1,6 @@
 import React from 'react';
 
-export default function HowItWorks({
-  venueName = 'Heritage Hall',
-  venueAddress = '177 Bedford St, Lexington',
-  raceCount = 5,
-}) {
+export default function HowItWorks({ venueName, venueAddress, raceCount }) {
   return (
     <section
       id="how-it-works"

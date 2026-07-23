@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default function About({
-  venueName = 'Heritage Hall',
-  venueAddress = '177 Bedford St, Lexington',
-  racesText = '5 Action Races',
-  racesDesc = '5 exciting races featuring wooden horses jockeyed live by event guests around the track! Place your bets and win cash & raffle prizes.',
+  venueName,
+  venueAddress,
+  racesText,
+  racesDesc = 'Exciting races featuring wooden horses jockeyed live by event guests around the track! Place your bets and win cash & raffle prizes.',
 }) {
   return (
     <section id="about" className="section">

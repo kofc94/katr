@@ -1,8 +1,8 @@
 import React from 'react';
 
 export default function Schedule({
-  venueName = 'Heritage Hall',
-  venueAddress = '177 Bedford St',
+  venueName,
+  venueAddress,
   timelineItems = [
     {
       time: '6:00 PM',
