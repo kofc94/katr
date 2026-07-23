@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@common': path.resolve(__dirname, '../common/src'),
+      '@year': path.resolve(__dirname, './src'),
     },
   },
   base: './',
