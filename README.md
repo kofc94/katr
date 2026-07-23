@@ -170,17 +170,24 @@ Run the deploy script targeting the new year:
 
 ## Local Development
 
-To preview static website content locally before deploying:
+Each year is a React app built with [Vite](https://vitejs.dev/). To run it locally:
 
-1. Navigate to the year directory:
+1. Navigate to the year directory and install dependencies (first time only):
    ```bash
    cd 2026
+   npm install
    ```
-2. Start a simple HTTP server (Python 3):
+2. Start the dev server (hot-reloading):
    ```bash
-   python3 -m http.server 8000
+   npm run dev
    ```
-3. Open `http://localhost:8000` in your web browser.
+3. Open the printed URL (e.g. `http://localhost:5173`) in your web browser.
+
+To preview the exact production build locally instead:
+
+```bash
+npm run build && npm run preview
+```
 
 ---
 
