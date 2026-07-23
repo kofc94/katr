@@ -117,18 +117,17 @@ When preparing the website for a new event year (e.g., **2027**), follow these s
 
 ### Step 1: Create the New Year Folder
 
-Copy the previous year's directory structure as a baseline for the new year:
+Copy the previous year's directory as a lightweight baseline:
 
 ```bash
 cp -r 2026 2027
 ```
 
-### Step 2: Edit Event Content
+### Step 2: Edit Year Configuration & Sponsors
 
-Update the files in the new `2027/` folder:
-- **`2027/index.html`**: Update event date, time, venue, ticket links, schedule, and sponsor lists.
-- **`2027/css/styles.css`**: Update event color schemes or branding if desired.
-- **`2027/assets/`**: Add new images, flyers, or hero banners.
+Because common layout components (`Navbar`, `Hero`, `About`, `Tickets`, `HowItWorks`, `Schedule`, `FAQ`, `Footer`) are shared in `common/`, you only need to edit:
+1. **`2027/src/config/eventConfig.js`**: Update event date, target countdown date, venue details, race count, and Zeffy ticket checkout URL.
+2. **`2027/src/components/sponsors/`**: Customize the individual sponsor cards for 2027.
 
 ### Step 3: Update Infrastructure Active Year
 

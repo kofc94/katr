@@ -1,8 +1,8 @@
 import React from 'react';
-import BaseSponsorCard from './BaseSponsorCard';
+import BaseSponsorCard from '@common/components/sponsors/BaseSponsorCard';
 
 /**
- * Check-In Table Sponsor Card
+ * Check-In Table Sponsor Card (2026)
  * Easily edit this file to customize sponsor name, logo, contact, description, or website URL.
  */
 export default function CheckInSponsor() {
