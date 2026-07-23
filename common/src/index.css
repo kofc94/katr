@@ -952,3 +952,249 @@ footer {
     left: 2px;
   }
 }
+
+/* ===================================================================== */
+/* Ride for the Cause — mini-game                                        */
+/* ===================================================================== */
+
+/* Teaser card in the #game section */
+.game-teaser {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+}
+
+.game-teaser-art {
+  font-size: 4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.game-teaser-body h3 {
+  font-family: var(--font-serif);
+  color: var(--accent-gold-light);
+  margin-bottom: 0.35rem;
+}
+
+.game-teaser-body p {
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.game-teaser-best {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.game-teaser .btn-primary {
+  margin-top: 0.75rem;
+}
+
+/* Fullscreen modal */
+.game-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(3, 7, 16, 0.92);
+  backdrop-filter: blur(4px);
+}
+
+.game-stage {
+  position: relative;
+  width: min(96vw, 1000px);
+}
+
+.game-canvas {
+  display: block;
+  /* fit within the viewport on any orientation while keeping 16:9,
+     so the scaled sprites never distort */
+  width: min(96vw, 1000px, 152vh);
+  aspect-ratio: 800 / 450;
+  background: #0b1830;
+  border: 2px solid var(--accent-gold);
+  border-radius: var(--radius-sm, 8px);
+  touch-action: none;
+  image-rendering: pixelated;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* In-play HUD */
+.game-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  font-family: var(--font-serif);
+}
+
+.game-hud .hud-left {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.hud-score {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-gold-light);
+}
+
+.hud-distance {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+}
+
+.game-hud .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+.hud-lives {
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+}
+
+.hud-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gold);
+  background: rgba(13, 26, 45, 0.85);
+  color: var(--accent-gold-light);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.hud-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.game-hud .hud-effects {
+  position: absolute;
+  top: 3rem;
+  left: 0.9rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hud-badge {
+  background: rgba(13, 26, 45, 0.9);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold-light);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.8rem;
+  font-family: var(--font-sans, sans-serif);
+}
+
+/* Overlays: start / paused / game over / loading */
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(7, 14, 27, 0.72);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.game-panel {
+  width: min(90%, 460px);
+  text-align: center;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.game-title {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  color: var(--accent-gold-light);
+  margin-bottom: 0.75rem;
+}
+
+.game-how {
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.game-controls {
+  color: #e2e8f0;
+  margin-bottom: 0.75rem;
+}
+
+.game-best {
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.game-newbest {
+  color: var(--accent-gold-light);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.game-finalscore {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--accent-gold-light);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.game-close-link {
+  display: block;
+  margin: 1rem auto 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .game-teaser {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .game-finalscore {
+    font-size: 2.4rem;
+  }
+  .hud-score {
+    font-size: 1.3rem;
+  }
+}
