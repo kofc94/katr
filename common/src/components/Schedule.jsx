@@ -3,7 +3,14 @@ import React from 'react';
 export default function Schedule({
   venueName,
   venueAddress,
+  happyHourTimeText = '4:30 PM',
+  happyHourVenueName = 'Lantern Lounge',
   timelineItems = [
+    {
+      time: happyHourTimeText,
+      title: 'Happy Hour Begins',
+      desc: `Arrive early and join us in the ${happyHourVenueName} for Happy Hour drinks and conversation before the main event.`,
+    },
     {
       time: '6:00 PM',
       title: 'Doors Open & Registration',
