@@ -28,6 +28,12 @@ variable "environment" {
   default     = "production"
 }
 
+variable "log_retention_days" {
+  type        = number
+  description = "Days to retain CloudFront access logs in S3 before they expire"
+  default     = 90
+}
+
 variable "enable_route53_records" {
   type        = bool
   description = "Whether to manage Route 53 DNS records for custom domain validation and alias"

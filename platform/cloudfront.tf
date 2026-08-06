@@ -27,6 +27,8 @@ function handler(event) {
             request.uri = '/' + yearMatch[1] + '/index.html';
         } else if (uri.endsWith('/')) {
             request.uri = uri + 'index.html';
+        } else if (!uri.substring(uri.lastIndexOf('/')).includes('.')) {
+            request.uri = uri + '/index.html';
         }
         return request;
     }
@@ -40,6 +42,8 @@ function handler(event) {
         request.uri = '/' + activeYear + uri;
         if (request.uri.endsWith('/')) {
             request.uri += 'index.html';
+        } else if (!uri.substring(uri.lastIndexOf('/')).includes('.')) {
+            request.uri += '/index.html';
         }
     }
 
@@ -56,6 +60,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_root_object = "index.html"
 
   aliases = concat([var.domain_name], var.subdomains)
+
+  # Access logs land in s3://<log bucket>/cloudfront/ (see logging.tf)
+  logging_config {
+    bucket          = aws_s3_bucket.logs.bucket_domain_name
+    prefix          = "cloudfront/"
+    include_cookies = false
+  }
 
   origin {
     domain_name              = aws_s3_bucket.website.bucket_regional_domain_name

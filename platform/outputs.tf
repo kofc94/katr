@@ -3,6 +3,11 @@ output "s3_bucket_name" {
   value       = aws_s3_bucket.website.id
 }
 
+output "cloudfront_logs_bucket_name" {
+  description = "Name of the S3 bucket receiving CloudFront access logs"
+  value       = aws_s3_bucket.logs.id
+}
+
 output "cloudfront_distribution_id" {
   description = "CloudFront Distribution ID (used for cache invalidations)"
   value       = aws_cloudfront_distribution.s3_distribution.id
