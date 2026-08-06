@@ -47,6 +47,7 @@ The site is built as a static multi-year website hosted on AWS, designed to main
   - Root traffic (`/`) is automatically mapped to the active year folder (e.g., `/2026/index.html`).
   - Year-specific URLs (e.g., `/2025/`, `/2026/`) route directly to that year's folder, preserving archives of previous events.
 - **AWS ACM & Route 53**: Handles SSL/TLS certificate creation, auto-validation via DNS, and apex (`katr.org`) / subdomain (`www.katr.org`) alias routing.
+- **CloudFront Access Logs**: Every request is logged to a separate private S3 bucket (`katr-org-cloudfront-logs-production`), expiring after 90 days. See [Checking Site Traffic](#checking-site-traffic-access-logs).
 - **OpenTofu / Terraform**: Manages all AWS infrastructure declaratively.
 
 ---
@@ -61,6 +62,7 @@ The site is built as a static multi-year website hosted on AWS, designed to main
   - [`platform/variables.tf`](file:///Users/eric/dev/katr/platform/variables.tf): Input variables (`current_year`, `domain_name`, `aws_region`, etc.)
   - [`platform/s3.tf`](file:///Users/eric/dev/katr/platform/s3.tf): S3 bucket configuration & OAC policy
   - [`platform/cloudfront.tf`](file:///Users/eric/dev/katr/platform/cloudfront.tf): CloudFront distribution & edge router function
+  - [`platform/logging.tf`](file:///Users/eric/dev/katr/platform/logging.tf): Access-log bucket, retention lifecycle, and log-delivery permissions
   - [`platform/route53.tf`](file:///Users/eric/dev/katr/platform/route53.tf): DNS records and alias configurations
   - [`platform/acm.tf`](file:///Users/eric/dev/katr/platform/acm.tf): SSL/TLS certificate management
   - [`platform/outputs.tf`](file:///Users/eric/dev/katr/platform/outputs.tf): Stack outputs (S3 bucket, CloudFront ID, URLs)
@@ -223,6 +225,109 @@ tofu apply
 # View output variables (S3 bucket name, CloudFront ID, etc.)
 tofu output
 ```
+
+### Checking Site Traffic (Access Logs)
+
+CloudFront writes an access log line for every request into a dedicated private bucket. This is the only server-side record of traffic — there is no analytics script on the site — so it also captures bots and crawlers that a JavaScript beacon would miss.
+
+Logs are gzipped, tab-delimited [W3C extended format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html), delivered in batches every few minutes, and expire after **90 days** (`var.log_retention_days` in `platform/variables.tf`).
+
+#### 1. Find the log files
+
+```bash
+LOGS=$(cd platform && tofu output -raw cloudfront_logs_bucket_name)
+
+# Most recent files (named E<DIST_ID>.YYYY-MM-DD-HH.<hash>.gz, in UTC)
+aws s3 ls "s3://$LOGS/cloudfront/" | sort | tail -20
+```
+
+> Delivery lags real time by several minutes to an hour, and the timestamp in the filename is the **UTC hour** the requests occurred — not local time. Expect a given day's logs to straddle two UTC dates.
+
+#### 2. Pull a day's logs and combine them
+
+```bash
+mkdir -p /tmp/katrlogs && cd /tmp/katrlogs
+
+aws s3 cp "s3://$LOGS/cloudfront/" . --recursive \
+  --exclude "*" --include "*.2026-08-06-*.gz" --quiet
+
+# Strip the two '#Version'/'#Fields' header lines from each file
+gunzip -c *.gz | grep -v '^#' > all.tsv
+wc -l all.tsv
+```
+
+Adjust the `--include` glob to widen the window — `"*.2026-08-*.gz"` for a whole month.
+
+#### 3. Useful queries
+
+Fields are tab-separated in a fixed order. The ones you'll want:
+
+| Field | Contents |
+|---|---|
+| `$1` / `$2` | date / time (UTC) |
+| `$3` | edge location (first 3 chars ≈ nearest airport, a rough geography proxy) |
+| `$5` | client IP |
+| `$8` | URL path (`cs-uri-stem`) |
+| `$9` | HTTP status |
+| `$10` | referrer |
+| `$11` | user agent |
+
+```bash
+# Total requests
+wc -l < all.tsv
+
+# Most-requested paths
+cut -f8 all.tsv | sort | uniq -c | sort -rn | head -20
+
+# Status code breakdown
+cut -f9 all.tsv | sort | uniq -c | sort -rn
+
+# Where visitors came from (referrers; '-' means direct/none)
+cut -f10 all.tsv | sort | uniq -c | sort -rn | head -20
+
+# Rough geography, via edge location
+cut -f3 all.tsv | cut -c1-3 | sort | uniq -c | sort -rn | head -10
+
+# Requests per day
+cut -f1 all.tsv | sort | uniq -c
+
+# Distinct client IPs — a loose upper bound on visitors, not a real unique count
+cut -f5 all.tsv | sort -u | wc -l
+
+# Page views with obvious bots filtered out
+awk -F'\t' '$9==200 && $11 !~ /[Bb]ot|[Cc]rawl|[Ss]pider|[Ss]lurp/ && ($8=="/" || $8 ~ /\.html$/ || $8 !~ /\./)' all.tsv | wc -l
+
+# Which QR-code / print traffic landed on the /qr/ page
+grep -c $'\t/qr' all.tsv
+```
+
+#### 4. Quick volume check without downloading anything
+
+CloudFront publishes free request metrics to CloudWatch (retained ~15 days):
+
+```bash
+DISTRIBUTION_ID=$(cd platform && tofu output -raw cloudfront_distribution_id)
+aws cloudwatch get-metric-statistics \
+  --namespace AWS/CloudFront --metric-name Requests \
+  --dimensions Name=DistributionId,Value="$DISTRIBUTION_ID" Name=Region,Value=Global \
+  --start-time "$(date -u -v-14d +%Y-%m-%dT%H:%M:%SZ)" \
+  --end-time "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --period 86400 --statistics Sum --region us-east-1 \
+  --query 'sort_by(Datapoints,&Timestamp)[].[Timestamp,Sum]' --output text
+```
+
+> `--region us-east-1` is required — CloudFront metrics are only published there. On Linux, use `date -u -d '14 days ago'` instead of the BSD `-v-14d` syntax.
+
+#### Interpreting the numbers
+
+A few caveats worth remembering before quoting any of this to the committee:
+
+- **Requests are not visitors.** One fresh page load is ~6–7 requests (HTML, CSS, JS, and the graphic/horse/QR images). Repeat visits hit the browser cache and log far fewer. Divide accordingly.
+- **A large share of traffic is bots.** Real samples are full of `/robots.txt`, `/sitemap.xml`, and probes for `/wp/` and `/wordpress/` from vulnerability scanners, plus search and AI crawlers. The bot-filtered `awk` above is a crude first pass, not a clean human count.
+- **User agents are URL-encoded** in the logs (spaces appear as `%20`), which is why the filters match on substrings.
+- **Ticket sales are not measurable here.** The Zeffy checkout is a cross-origin iframe, so no log line or analytics script can see form views or submissions. Use Zeffy's own dashboard for that.
+
+For proper visitor-level analytics (unique users, sessions, conversion funnels) we'd add a client-side tool or an Athena table over this bucket — not set up yet.
 
 ### Invalidating CloudFront Cache Manually
 
