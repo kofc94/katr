@@ -8,6 +8,8 @@ export default function Hero({
   presenter,
   dateText,
   timeText,
+  happyHourTimeText,
+  happyHourVenueName,
   venueName,
   venueAddress,
   racesCountText,
@@ -61,6 +63,12 @@ export default function Hero({
             <div className="meta-icon">⏰</div>
             <div className="meta-label">Time</div>
             <div className="meta-value">{timeText}</div>
+            {happyHourTimeText && (
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                🍸 Happy Hour {happyHourTimeText}
+                {happyHourVenueName && ` · ${happyHourVenueName}`}
+              </div>
+            )}
           </div>
           <div className="meta-card">
             <div className="meta-icon">📍</div>

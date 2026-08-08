@@ -1,0 +1,362 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+/* ==========================================================================
+   Design tokens
+   Dark "field-ops" aesthetic: near-black navy ground, neon-green primary,
+   cyan/blue for collected + navigation, red for missing.
+   ========================================================================== */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Ground — deeper and bluer than slate so the neon reads hot against it */
+  --color-ink-950: #05070f;
+  --color-ink-900: #090d18;
+  --color-ink-850: #0d1322;
+  --color-ink-800: #131a2c;
+  --color-ink-700: #1c2438;
+  --color-ink-600: #2a3450;
+
+  /* Primary — neon lawn green */
+  --color-neon-400: #4ef08a;
+  --color-neon-500: #22e07a;
+  --color-neon-600: #10b981;
+  --color-neon-700: #059669;
+
+  /* Collected / navigation */
+  --color-aqua-400: #38dcf5;
+  --color-aqua-500: #22c7ee;
+  --color-azure-500: #3b82f6;
+  --color-azure-600: #2563eb;
+
+  /* Missing */
+  --color-flare-400: #ff6b6b;
+  --color-flare-500: #ef4444;
+  --color-flare-600: #dc2626;
+
+  --radius-4xl: 1.75rem;
+  --radius-5xl: 2.25rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    color-scheme: dark;
+    /* Prevent iOS rubber-band revealing white behind the app shell */
+    background-color: var(--color-ink-950);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--color-ink-950);
+    /* Ambient light-bloom: green from top-left, aqua from bottom-right */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% -5%, rgba(34, 224, 122, 0.13), transparent 60%),
+      radial-gradient(ellipse 70% 45% at 95% 100%, rgba(34, 199, 238, 0.11), transparent 60%);
+    background-attachment: fixed;
+    color: #eef2f9;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Kill the iOS input zoom + native chrome on form controls */
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.25);
+    border-radius: 9999px;
+  }
+}
+
+/* ==========================================================================
+   Surfaces — the frosted-glass panels that define the mockups
+   ========================================================================== */
+@utility glass {
+  background: linear-gradient(
+    145deg,
+    rgba(28, 36, 56, 0.72) 0%,
+    rgba(13, 19, 34, 0.78) 100%
+  );
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 20px 50px -12px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+}
+
+/* Heavier, more opaque — for bottom sheets and modals that sit over content */
+@utility glass-deep {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 27, 44, 0.94) 0%,
+    rgba(7, 11, 20, 0.96) 100%
+  );
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 -12px 50px -8px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   Neon glow helpers
+   ========================================================================== */
+@utility glow-neon {
+  box-shadow:
+    0 0 20px -2px rgba(34, 224, 122, 0.55),
+    0 0 48px -8px rgba(34, 224, 122, 0.35);
+}
+
+@utility glow-aqua {
+  box-shadow:
+    0 0 20px -2px rgba(34, 199, 238, 0.55),
+    0 0 48px -8px rgba(34, 199, 238, 0.35);
+}
+
+@utility glow-flare {
+  box-shadow:
+    0 0 20px -2px rgba(239, 68, 68, 0.5),
+    0 0 44px -8px rgba(239, 68, 68, 0.3);
+}
+
+@utility text-glow-neon {
+  text-shadow: 0 0 18px rgba(34, 224, 122, 0.65);
+}
+
+/* Micro-label: the wide-tracked uppercase caption used throughout */
+@utility eyebrow {
+  font-size: 0.625rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* Respect the notch. Only a padding-top helper lives here on purpose —
+   bottom insets are folded into each element's own pb-[calc(...)] so two
+   utilities can never fight over the same padding-bottom declaration. */
+@utility pt-safe {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* ==========================================================================
+   Animation
+   ========================================================================== */
+@keyframes halo-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 0.15;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@utility animate-halo {
+  animation: halo-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@utility animate-rise {
+  animation: rise 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@utility animate-sheet-up {
+  animation: sheet-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@utility animate-nudge {
+  animation: nudge 1.3s ease-in-out infinite;
+}
+
+/* Shimmer for skeleton loaders */
+@utility shimmer {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.07),
+      transparent
+    );
+    animation: sweep 1.6s infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   Leaflet — dark theme integration (mockup 2)
+   ========================================================================== */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: var(--color-ink-950) !important;
+  font-family: var(--font-sans);
+  z-index: 0;
+}
+
+/* Cool the stock tiles down to match the app's night palette */
+.leaflet-tile-pane {
+  filter: brightness(0.82) saturate(1.15) hue-rotate(-6deg);
+}
+
+.leaflet-control-attribution {
+  background: rgba(5, 7, 15, 0.7) !important;
+  color: rgba(148, 163, 184, 0.7) !important;
+  font-size: 9px !important;
+  backdrop-filter: blur(6px);
+}
+.leaflet-control-attribution a {
+  color: rgba(34, 224, 122, 0.75) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(13, 19, 34, 0.96) !important;
+  backdrop-filter: blur(16px);
+  color: #eef2f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px !important;
+  box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.85) !important;
+}
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+}
+.leaflet-popup-tip {
+  background: rgba(13, 19, 34, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.leaflet-popup-close-button {
+  color: rgba(148, 163, 184, 0.8) !important;
+  padding: 6px 6px 0 0 !important;
+}
+
+/* --- Teardrop map pins ------------------------------------------------- */
+.pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  position: relative;
+}
+
+.pin span {
+  transform: rotate(45deg);
+  font-size: 12px;
+  font-weight: 900;
+  color: #04220f;
+  line-height: 1;
+}
+
+.pin-placed {
+  background: linear-gradient(135deg, var(--color-neon-400), var(--color-neon-600));
+  box-shadow: 0 0 16px 2px rgba(34, 224, 122, 0.75);
+}
+.pin-collected {
+  background: linear-gradient(135deg, var(--color-aqua-400), var(--color-azure-600));
+  box-shadow: 0 0 16px 2px rgba(56, 220, 245, 0.7);
+}
+.pin-missing {
+  background: linear-gradient(135deg, var(--color-flare-400), var(--color-flare-600));
+  box-shadow: 0 0 16px 2px rgba(239, 68, 68, 0.7);
+}
+.pin-missing span,
+.pin-collected span {
+  color: #fff;
+}
+
+/* The pin the bottom sheet is currently targeting */
+.pin-target {
+  animation: halo-pulse 1.8s ease-in-out infinite;
+  z-index: 500 !important;
+}
+
+/* --- "You are here" puck ----------------------------------------------- */
+.user-puck {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-azure-500);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.28), 0 0 22px 4px rgba(59, 130, 246, 0.6);
+}

@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KatR QR Code Generator | Organizers Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070e1b;
+      --bg-card: #0e1726;
+      --bg-input: #152238;
+      --border-color: #1e2d4a;
+      --gold-primary: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-dark: #d97706;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-navy: #0f172a;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.05) 0%, transparent 45%);
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(7, 14, 27, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-dark);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title span {
+      color: var(--gold-primary);
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Layout Main */
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.5rem 2rem;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .panel-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .panel-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-description {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 1.75rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-label-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: normal;
+      margin-left: 6px;
+    }
+
+    /* Input Group */
+    .url-input-group {
+      display: flex;
+      align-items: center;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .url-input-group:focus-within {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+
+    .url-prefix {
+      padding: 0.75rem 0.25rem 0.75rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      background: rgba(0, 0, 0, 0.2);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .url-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.75rem 1rem 0.75rem 0.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: #fff;
+      outline: none;
+    }
+
+    /* Presets */
+    .presets-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0.75rem;
+    }
+
+    .preset-btn {
+      background: rgba(30, 45, 74, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .preset-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .preset-btn.active {
+      background: var(--gold-primary);
+      border-color: var(--gold-primary);
+      color: var(--bg-dark);
+      font-weight: 600;
+    }
+
+    /* Full URL Display Box */
+    .full-url-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 0.75rem;
+    }
+
+    .full-url-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+    }
+
+    /* Style Mode Toggle */
+    .mode-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: var(--bg-input);
+      padding: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .mode-option {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .mode-option:hover {
+      color: var(--text-main);
+    }
+
+    .mode-option.active {
+      background: var(--bg-card);
+      color: var(--gold-light);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Select & Checkbox */
+    .select-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .select-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-input {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--bg-input);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .checkbox-input:checked {
+      background: var(--gold-primary);
+      border-color: var(--gold-primary);
+    }
+
+    .checkbox-input:checked::after {
+      content: '✓';
+      color: var(--bg-dark);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .checkbox-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Action Buttons */
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: var(--bg-dark);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 1.25rem;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px var(--gold-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      filter: brightness(1.08);
+    }
+
+    .btn-secondary {
+      background: rgba(30, 45, 74, 0.6);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 1.25rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(30, 45, 74, 1);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Preview Panel */
+    .preview-panel {
+      position: sticky;
+      top: 90px;
+    }
+
+    .preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .preview-viewport {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 340px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    /* Preview Background options */
+    .bg-checker {
+      background-color: #111827;
+      background-image: 
+        linear-gradient(45deg, #1f293d 25%, transparent 25%), 
+        linear-gradient(-45deg, #1f293d 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #1f293d 75%), 
+        linear-gradient(-45deg, transparent 75%, #1f293d 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .bg-white-preview {
+      background-color: #ffffff;
+    }
+
+    .bg-navy-preview {
+      background-color: #070e1b;
+    }
+
+    .qr-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-container svg, .qr-container canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    /* Preview Controls Bar */
+    .preview-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 1.25rem;
+      background: var(--bg-input);
+      padding: 4px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .bg-option-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bg-option-btn.active {
+      border-color: var(--gold-primary);
+      transform: scale(1.15);
+    }
+
+    .bg-opt-checker {
+      background-color: #111827;
+      background-image: linear-gradient(45deg, #374151 50%, #111827 50%);
+    }
+
+    .bg-opt-white {
+      background-color: #ffffff;
+    }
+
+    .bg-opt-navy {
+      background-color: #070e1b;
+    }
+
+    /* Badges */
+    .badges-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .badge {
+      background: rgba(30, 45, 74, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-icon {
+      color: var(--gold-primary);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gold-primary);
+      color: var(--bg-dark);
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: 3rem;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--gold-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="https://katr.org" class="brand">
+        <div class="brand-logo">K</div>
+        <div class="brand-text">
+          <span class="brand-title">KatR <span>QR Studio</span></span>
+          <span class="brand-subtitle">Organizers & Marketing Tool</span>
+        </div>
+      </a>
+      <a href="https://katr.org" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500;">
+        katr.org ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="grid-layout">
+      
+      <!-- Left Column: Controls -->
+      <div class="panel">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold-primary);"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Generate Acquisition QR Code
+          </h1>
+          <p class="panel-description">Create custom QR codes with acquisition source tags to track where your site traffic originates.</p>
+        </div>
+
+        <!-- Source Input -->
+        <div class="form-group">
+          <label class="form-label" for="sourceInput">
+            Acquisition Source Tag (<code style="color: var(--gold-light);">s=</code>)
+            <span class="form-label-sub">Identifies the campaign or media format</span>
+          </label>
+          <div class="url-input-group">
+            <span class="url-prefix">https://katr.org?s=</span>
+            <input type="text" id="sourceInput" class="url-input" value="lawn_sign" placeholder="e.g. postcard, flyer, lawn_sign" autocomplete="off" spellcheck="false">
+          </div>
+
+          <!-- Presets -->
+          <div class="presets-container">
+            <span style="font-size: 0.75rem; color: var(--text-dim); align-self: center; margin-right: 4px;">Quick select:</span>
+            <button type="button" class="preset-btn" data-preset="postcard">✉️ Postcard</button>
+            <button type="button" class="preset-btn" data-preset="flyer">📄 Flyer</button>
+            <button type="button" class="preset-btn active" data-preset="lawn_sign">🪴 Lawn Sign</button>
+            <button type="button" class="preset-btn" data-preset="poster">📌 Poster</button>
+            <button type="button" class="preset-btn" data-preset="social">📱 Social</button>
+            <button type="button" class="preset-btn" data-preset="email">📧 Email</button>
+          </div>
+
+          <!-- Full URL Display & Copy -->
+          <div class="full-url-box">
+            <span class="full-url-text" id="fullUrlDisplay">https://katr.org?s=lawn_sign</span>
+            <button type="button" class="copy-btn" id="copyUrlBtn">Copy URL</button>
+          </div>
+        </div>
+
+        <!-- Style Mode Selector -->
+        <div class="form-group">
+          <label class="form-label">Visual Style Mode</label>
+          <div class="mode-selector">
+            <button type="button" class="mode-option active" id="modeHighContrast" data-mode="contrast">
+              🔳 High Contrast
+            </button>
+            <button type="button" class="mode-option" id="modeHighDefinition" data-mode="branded">
+              ✨ High Definition
+            </button>
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-dim); margin-top: 6px;" id="modeHelpText">
+            <strong>High Contrast:</strong> Crisp black & white QR code with center KatR emblem badge.
+          </p>
+        </div>
+
+        <!-- Export Options -->
+        <div class="form-group">
+          <label class="form-label" for="resSelect">PNG Download Resolution</label>
+          <select id="resSelect" class="select-input">
+            <option value="500">500 × 500 px (Digital / Web / Screen)</option>
+            <option value="1000">1,000 × 1,000 px (Standard Print)</option>
+            <option value="2000" selected>2,000 × 2,000 px (Recommended - High Res Print)</option>
+            <option value="4000">4,000 × 4,000 px (Ultra HD / Large Banners & Signs)</option>
+          </select>
+
+          <!-- Transparent Background Checkbox -->
+          <label class="checkbox-group">
+            <input type="checkbox" id="transparentCheck" class="checkbox-input" checked>
+            <span class="checkbox-label">Transparent Background (PNG export with alpha channel)</span>
+          </label>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="action-grid">
+          <button type="button" class="btn-primary" id="downloadPngBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PNG
+          </button>
+          <button type="button" class="btn-secondary" id="downloadSvgBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            Download SVG
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Preview Sticky Panel -->
+      <div class="preview-panel">
+        <div class="preview-card">
+          <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.05rem; color: #fff;">Live Preview</span>
+            <span style="font-size: 0.75rem; color: var(--gold-light); font-weight: 600;" id="modeBadge">HIGH CONTRAST</span>
+          </div>
+
+          <!-- Viewport Box -->
+          <div class="preview-viewport bg-checker" id="previewViewport">
+            <div class="qr-container" id="qrContainer"></div>
+          </div>
+
+          <!-- Preview BG Controls -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 1rem;">
+            <span style="font-size: 0.75rem; color: var(--text-dim);">Preview BG:</span>
+            <div class="preview-toolbar">
+              <button type="button" class="bg-option-btn bg-opt-checker active" data-bg="checker" title="Transparent Checkerboard"></button>
+              <button type="button" class="bg-option-btn bg-opt-white" data-bg="white" title="White Background"></button>
+              <button type="button" class="bg-option-btn bg-opt-navy" data-bg="navy" title="Dark Navy Background"></button>
+            </div>
+          </div>
+
+          <!-- Badges Bar -->
+          <div class="badges-row">
+            <div class="badge">
+              <span class="badge-icon">⚡</span> Level H Error Correction
+            </div>
+            <div class="badge" id="resBadge">
+              <span class="badge-icon">📐</span> 2000 × 2000 px
+            </div>
+            <div class="badge" id="transparencyBadge">
+              <span class="badge-icon">✨</span> Transparent PNG
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toastMessage">Copied to clipboard!</span>
+  </div>
+
+  <footer>
+    <p>&copy; KatR (K'night at the Races) Organizers Tool &bull; <a href="https://katr.org" target="_blank">katr.org</a></p>
+  </footer>
+
+  <!-- External CDN with Embedded Fallback QR Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script>
+    if (typeof qrcode === 'undefined') {
+      window.qrcode = (function () {
+        function QRCode(typeNumber, errorCorrectionLevel) {
+          var PAD0 = 0xEC, PAD1 = 0x11;
+          var _typeNumber = typeNumber, _errorCorrectionLevel = errorCorrectionLevel;
+          var _modules = null, _moduleCount = 0, _dataCache = null, _dataList = [];
+          var _this = {};
+          _this.addData = function(data) { _dataList.push(createData(data)); _dataCache = null; };
+          _this.isDark = function(row, col) { return _modules[row][col]; };
+          _this.getModuleCount = function() { return _moduleCount; };
+          _this.make = function() {
+            if (_typeNumber < 1) {
+              var typeNumber = 1;
+              for (; typeNumber < 40; typeNumber++) {
+                var rsBlocks = RSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+                var buffer = createBitBuffer();
+                for (var i = 0; i < _dataList.length; i++) {
+                  var data = _dataList[i];
+                  buffer.put(data.mode, 4);
+                  buffer.put(data.getLength(), getLengthInBits(data.mode, typeNumber));
+                  data.write(buffer);
+                }
+                var totalDataCount = 0;
+                for (var i = 0; i < rsBlocks.length; i++) totalDataCount += rsBlocks[i].dataCount;
+                if (buffer.getLengthInBits() <= totalDataCount * 8) break;
+              }
+              _typeNumber = typeNumber;
+            }
+            makeImpl(false, getBestMaskPattern());
+          };
+          function makeImpl(test, maskPattern) {
+            _moduleCount = _typeNumber * 4 + 17;
+            _modules = new Array(_moduleCount);
+            for (var row = 0; row < _moduleCount; row++) {
+              _modules[row] = new Array(_moduleCount);
+              for (var col = 0; col < _moduleCount; col++) _modules[row][col] = null;
+            }
+            setupPositionProbePattern(0, 0);
+            setupPositionProbePattern(_moduleCount - 7, 0);
+            setupPositionProbePattern(0, _moduleCount - 7);
+            setupPositionAdjustPattern();
+            setupTimingPattern();
+            setupTypeInfo(test, maskPattern);
+            if (_typeNumber >= 7) setupTypeNumber(test);
+            if (_dataCache == null) _dataCache = createDataCache(_typeNumber, _errorCorrectionLevel, _dataList);
+            mapData(_dataCache, maskPattern);
+          }
+          function setupPositionProbePattern(row, col) {
+            for (var r = -1; r <= 7; r++) {
+              if (row + r <= -1 || _moduleCount <= row + r) continue;
+              for (var c = -1; c <= 7; c++) {
+                if (col + c <= -1 || _moduleCount <= col + c) continue;
+                if ((0 <= r && r <= 6 && (c == 0 || c == 6)) || (0 <= c && c <= 6 && (r == 0 || r == 6)) || (2 <= r && r <= 4 && 2 <= c && c <= 4)) _modules[row + r][col + c] = true;
+                else _modules[row + r][col + c] = false;
+              }
+            }
+          }
+          function getBestMaskPattern() {
+            var minLostPoint = 0, pattern = 0;
+            for (var i = 0; i < 8; i++) {
+              makeImpl(true, i);
+              var lostPoint = getLostPoint(_this);
+              if (i == 0 || minLostPoint > lostPoint) { minLostPoint = lostPoint; pattern = i; }
+            }
+            return pattern;
+          }
+          function setupTimingPattern() {
+            for (var r = 8; r < _moduleCount - 8; r++) { if (_modules[r][6] != null) continue; _modules[r][6] = (r % 2 == 0); }
+            for (var c = 8; c < _moduleCount - 8; c++) { if (_modules[6][c] != null) continue; _modules[6][c] = (c % 2 == 0); }
+          }
+          function setupPositionAdjustPattern() {
+            var pos = getPatternPosition(_typeNumber);
+            for (var i = 0; i < pos.length; i++) {
+              for (var j = 0; j < pos.length; j++) {
+                var row = pos[i], col = pos[j];
+                if (_modules[row][col] != null) continue;
+                for (var r = -2; r <= 2; r++) {
+                  for (var c = -2; c <= 2; c++) {
+                    if (r == -2 || r == 2 || c == -2 || c == 2 || (r == 0 && c == 0)) _modules[row + r][col + c] = true;
+                    else _modules[row + r][col + c] = false;
+                  }
+                }
+              }
+            }
+          }
+          function setupTypeNumber(test) {
+            var bits = getBCHTypeNumber(_typeNumber);
+            for (var i = 0; i < 18; i++) {
+              var mod = (!test && ((bits >> i) & 1) == 1);
+              _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+              _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+            }
+          }
+          function setupTypeInfo(test, maskPattern) {
+            var data = (_errorCorrectionLevel << 3) | maskPattern;
+            var bits = getBCHTypeInfo(data);
+            for (var i = 0; i < 15; i++) {
+              var mod = (!test && ((bits >> i) & 1) == 1);
+              if (i < 6) _modules[i][8] = mod;
+              else if (i < 8) _modules[i + 1][8] = mod;
+              else _modules[_moduleCount - 15 + i][8] = mod;
+            }
+            for (var i = 0; i < 15; i++) {
+              var mod = (!test && ((bits >> i) & 1) == 1);
+              if (i < 8) _modules[8][_moduleCount - 1 - i] = mod;
+              else if (i < 9) _modules[8][15 - i - 1 + 1] = mod;
+              else _modules[8][15 - i - 1] = mod;
+            }
+            _modules[_moduleCount - 8][8] = (!test);
+          }
+          function mapData(data, maskPattern) {
+            var inc = -1, row = _moduleCount - 1, bitIndex = 7, byteIndex = 0;
+            for (var col = _moduleCount - 1; col > 0; col -= 2) {
+              if (col == 6) col--;
+              while (true) {
+                for (var c = 0; c < 2; c++) {
+                  if (_modules[row][col - c] == null) {
+                    var dark = false;
+                    if (byteIndex < data.length) dark = (((data[byteIndex] >>> bitIndex) & 1) == 1);
+                    var mask = getMask(maskPattern, row, col - c);
+                    if (mask) dark = !dark;
+                    _modules[row][col - c] = dark;
+                    bitIndex--;
+                    if (bitIndex == -1) { byteIndex++; bitIndex = 7; }
+                  }
+                }
+                row += inc;
+                if (row < 0 || _moduleCount <= row) { row -= inc; inc = -inc; break; }
+              }
+            }
+          }
+          function createDataCache(typeNumber, errorCorrectionLevel, dataList) {
+            var rsBlocks = RSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+            var buffer = createBitBuffer();
+            for (var i = 0; i < dataList.length; i++) {
+              var data = dataList[i];
+              buffer.put(data.mode, 4);
+              buffer.put(data.getLength(), getLengthInBits(data.mode, typeNumber));
+              data.write(buffer);
+            }
+            var totalDataCount = 0;
+            for (var i = 0; i < rsBlocks.length; i++) totalDataCount += rsBlocks[i].dataCount;
+            if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) buffer.put(0, 4);
+            while (buffer.getLengthInBits() % 8 != 0) buffer.putBit(false);
+            while (true) {
+              if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+              buffer.put(PAD0, 8);
+              if (buffer.getLengthInBits() >= totalDataCount * 8) break;
+              buffer.put(PAD1, 8);
+            }
+            return createBytes(buffer, rsBlocks);
+          }
+          function createBytes(buffer, rsBlocks) {
+            var offset = 0, maxDcCount = 0, maxEcCount = 0;
+            var dcdata = new Array(rsBlocks.length), ecdata = new Array(rsBlocks.length);
+            for (var r = 0; r < rsBlocks.length; r++) {
+              var dcCount = rsBlocks[r].dataCount, ecCount = rsBlocks[r].totalCount - dcCount;
+              maxDcCount = Math.max(maxDcCount, dcCount);
+              maxEcCount = Math.max(maxEcCount, ecCount);
+              dcdata[r] = new Array(dcCount);
+              for (var i = 0; i < dcdata[r].length; i++) dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+              offset += dcCount;
+              var rsPoly = getErrorCorrectionPolynomial(ecCount);
+              var rawPoly = createPolynomial(dcdata[r], rsPoly.getLength() - 1);
+              var modPoly = rawPoly.mod(rsPoly);
+              ecdata[r] = new Array(rsPoly.getLength() - 1);
+              for (var i = 0; i < ecdata[r].length; i++) {
+                var modIndex = i + modPoly.getLength() - ecdata[r].length;
+                ecdata[r][i] = (modIndex >= 0) ? modPoly.get(modIndex) : 0;
+              }
+            }
+            var totalCodeCount = 0;
+            for (var i = 0; i < rsBlocks.length; i++) totalCodeCount += rsBlocks[i].totalCount;
+            var data = new Array(totalCodeCount), index = 0;
+            for (var i = 0; i < maxDcCount; i++) {
+              for (var r = 0; r < rsBlocks.length; r++) {
+                if (i < dcdata[r].length) data[index++] = dcdata[r][i];
+              }
+            }
+            for (var i = 0; i < maxEcCount; i++) {
+              for (var r = 0; r < rsBlocks.length; r++) {
+                if (i < ecdata[r].length) data[index++] = ecdata[r][i];
+              }
+            }
+            return data;
+          }
+          return _this;
+        }
+        function createData(data) {
+          return { mode: 4, data: data, getLength: function() { return this.data.length; }, write: function(b) { for (var i = 0; i < this.data.length; i++) b.put(this.data.charCodeAt(i), 8); } };
+        }
+        function createBitBuffer() {
+          var buffer = [], length = 0;
+          return {
+            buffer: buffer, length: length,
+            get: function(i) { return ((buffer[Math.floor(i / 8)] >>> (7 - i % 8)) & 1) == 1; },
+            put: function(num, len) { for (var i = 0; i < len; i++) this.putBit(((num >>> (len - i - 1)) & 1) == 1); },
+            getLengthInBits: function() { return this.length; },
+            putBit: function(bit) {
+              var idx = Math.floor(this.length / 8);
+              if (buffer.length <= idx) buffer.push(0);
+              if (bit) buffer[idx] |= (0x80 >>> (this.length % 8));
+              this.length++;
+            }
+          };
+        }
+        var QRMaskPattern = { PATTERN000: 0, PATTERN001: 1, PATTERN010: 2, PATTERN011: 3, PATTERN100: 4, PATTERN101: 5, PATTERN110: 6, PATTERN111: 7 };
+        function getMask(mp, r, c) {
+          switch (mp) {
+            case 0: return (r + c) % 2 == 0; case 1: return r % 2 == 0; case 2: return c % 3 == 0;
+            case 3: return (r + c) % 3 == 0; case 4: return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 == 0;
+            case 5: return (r * c) % 2 + (r * c) % 3 == 0; case 6: return ((r * c) % 2 + (r * c) % 3) % 2 == 0;
+            case 7: return ((r * c) % 3 + (r + c) % 2) % 2 == 0; default: return false;
+          }
+        }
+        function getErrorCorrectionPolynomial(el) {
+          var a = createPolynomial([1], 0);
+          for (var i = 0; i < el; i++) a = a.multiply(createPolynomial([1, QRMath.gexp(i)], 0));
+          return a;
+        }
+        function getLengthInBits(mode, type) { return (type < 10) ? 8 : 16; }
+        function getLostPoint(qrCode) {
+          var mc = qrCode.getModuleCount(), lp = 0;
+          for (var r = 0; r < mc; r++) {
+            for (var c = 0; c < mc; c++) {
+              var same = 0, dark = qrCode.isDark(r, c);
+              for (var dr = -1; dr <= 1; dr++) {
+                if (r + dr < 0 || mc <= r + dr) continue;
+                for (var dc = -1; dc <= 1; dc++) {
+                  if (c + dc < 0 || mc <= c + dc || (dr == 0 && dc == 0)) continue;
+                  if (dark == qrCode.isDark(r + dr, c + dc)) same++;
+                }
+              }
+              if (same > 5) lp += (3 + same - 5);
+            }
+          }
+          return lp;
+        }
+        var QRMath = {
+          glog: function(n) { return LOG_TABLE[n]; },
+          gexp: function(n) { while (n < 0) n += 255; while (n >= 255) n -= 255; return EXP_TABLE[n]; }
+        };
+        var EXP_TABLE = new Array(256), LOG_TABLE = new Array(256);
+        for (var i = 0; i < 8; i++) EXP_TABLE[i] = 1 << i;
+        for (var i = 8; i < 256; i++) EXP_TABLE[i] = EXP_TABLE[i - 4] ^ EXP_TABLE[i - 5] ^ EXP_TABLE[i - 8] ^ EXP_TABLE[i - 6];
+        for (var i = 0; i < 255; i++) LOG_TABLE[EXP_TABLE[i]] = i;
+        function createPolynomial(num, shift) {
+          var offset = 0;
+          while (offset < num.length && num[offset] == 0) offset++;
+          var mainNum = new Array(num.length - offset + shift);
+          for (var i = 0; i < num.length - offset; i++) mainNum[i] = num[i + offset];
+          return {
+            get: function(i) { return mainNum[i]; }, getLength: function() { return mainNum.length; },
+            multiply: function(e) {
+              var n = new Array(this.getLength() + e.getLength() - 1);
+              for (var i = 0; i < n.length; i++) n[i] = 0;
+              for (var i = 0; i < this.getLength(); i++) {
+                for (var j = 0; j < e.getLength(); j++) n[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)));
+              }
+              return createPolynomial(n, 0);
+            },
+            mod: function(e) {
+              if (this.getLength() - e.getLength() < 0) return this;
+              var ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
+              var n = new Array(this.getLength());
+              for (var i = 0; i < this.getLength(); i++) n[i] = this.get(i);
+              for (var i = 0; i < e.getLength(); i++) n[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio);
+              return createPolynomial(num, 0).mod(e);
+            }
+          };
+        }
+        function getBCHTypeInfo(data) {
+          var d = data << 10;
+          while (getBCHDigit(d) - getBCHDigit(1335) >= 0) d ^= (1335 << (getBCHDigit(d) - getBCHDigit(1335)));
+          return ((data << 10) | d) ^ 21522;
+        }
+        function getBCHTypeNumber(data) {
+          var d = data << 12;
+          while (getBCHDigit(d) - getBCHDigit(7973) >= 0) d ^= (7973 << (getBCHDigit(d) - getBCHDigit(7973)));
+          return (data << 12) | d;
+        }
+        function getBCHDigit(data) { var digit = 0; while (data != 0) { digit++; data >>>= 1; } return digit; }
+        function getPatternPosition(tn) { return PATTERN_POSITION_TABLE[tn - 1]; }
+        var PATTERN_POSITION_TABLE = [[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]];
+        var RSBlock = {
+          getRSBlocks: function(tn, ecl) {
+            var table = RS_BLOCK_TABLE[(tn - 1) * 4 + ecl], list = [];
+            for (var i = 0; i < table.length; i += 3) {
+              for (var j = 0; j < table[i]; j++) list.push({ totalCount: table[i + 1], dataCount: table[i + 2] });
+            }
+            return list;
+          }
+        };
+        var RS_BLOCK_TABLE = [[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13]];
+        return function(tn, ecl) {
+          var eclMap = { 'L': 0, 'M': 1, 'Q': 2, 'H': 3 };
+          return QRCode(tn, (typeof ecl === 'string') ? eclMap[ecl] : ecl);
+        };
+      })();
+    }
+  </script>
+
+  <!-- Main Application Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const sourceInput = document.getElementById('sourceInput');
+      const presetBtns = document.querySelectorAll('.preset-btn');
+      const fullUrlDisplay = document.getElementById('fullUrlDisplay');
+      const copyUrlBtn = document.getElementById('copyUrlBtn');
+      const modeOptions = document.querySelectorAll('.mode-option');
+      const modeHelpText = document.getElementById('modeHelpText');
+      const modeBadge = document.getElementById('modeBadge');
+      const resSelect = document.getElementById('resSelect');
+      const transparentCheck = document.getElementById('transparentCheck');
+      const downloadPngBtn = document.getElementById('downloadPngBtn');
+      const downloadSvgBtn = document.getElementById('downloadSvgBtn');
+      const qrContainer = document.getElementById('qrContainer');
+      const previewViewport = document.getElementById('previewViewport');
+      const bgOptionBtns = document.querySelectorAll('.bg-option-btn');
+      const resBadge = document.getElementById('resBadge');
+      const transparencyBadge = document.getElementById('transparencyBadge');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+
+      // State
+      let currentSource = 'lawn_sign';
+      let currentMode = 'contrast'; // 'contrast' or 'branded'
+      let currentBg = 'checker';
+      let horseImageLoaded = false;
+      let processedHorseCanvas = null;
+      let processedHorseDataUrl = null;
+      let horseNaturalWidth = 1000;
+      let horseNaturalHeight = 500;
+      
+      // Load and key-out official KatR Horse graphic (making white background 100% transparent)
+      const horseImg = new Image();
+      horseImg.crossOrigin = "anonymous";
+      horseImg.src = "/qr/official_graphic.jpg";
+      horseImg.onerror = () => {
+        console.warn("Failed to load /qr/official_graphic.jpg, trying fallback...");
+        if (horseImg.src !== "official_graphic.jpg") {
+          horseImg.src = "official_graphic.jpg";
+        } else {
+          horseImageLoaded = true;
+          updatePreview();
+        }
+      };
+      horseImg.onload = () => {
+        try {
+          horseNaturalWidth = horseImg.width;
+          horseNaturalHeight = horseImg.height;
+
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = horseImg.width;
+          tempCanvas.height = horseImg.height;
+          const tctx = tempCanvas.getContext('2d');
+          tctx.drawImage(horseImg, 0, 0);
+
+          const imgData = tctx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+          const data = imgData.data;
+          // Key out white background pixels (R, G, B > 235)
+          for (let i = 0; i < data.length; i += 4) {
+            if (data[i] > 235 && data[i+1] > 235 && data[i+2] > 235) {
+              data[i+3] = 0; // Transparent
+            }
+          }
+          tctx.putImageData(imgData, 0, 0);
+          processedHorseCanvas = tempCanvas;
+          processedHorseDataUrl = tempCanvas.toDataURL('image/png');
+          horseImageLoaded = true;
+          updatePreview();
+        } catch (e) {
+          console.error("Horse image keyout error:", e);
+          horseImageLoaded = true;
+          updatePreview();
+        }
+      };
+
+      // Base URL constant
+      const BASE_URL = 'https://katr.org?s=';
+
+      // --- Helper Functions ---
+
+      function getFullUrl() {
+        const val = sourceInput.value.trim();
+        return BASE_URL + encodeURIComponent(val);
+      }
+
+      function showToast(msg) {
+        toastMessage.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2600);
+      }
+
+      // Generate QR matrix array (0 = light, 1 = dark)
+      function getQrMatrix(text) {
+        // Error Correction Level H (High = 30% redundancy)
+        const qr = window.qrcode(0, 'H');
+        qr.addData(text);
+        qr.make();
+        const count = qr.getModuleCount();
+        const matrix = [];
+        for (let r = 0; r < count; r++) {
+          const row = [];
+          for (let c = 0; c < count; c++) {
+            row.push(qr.isDark(r, c) ? 1 : 0);
+          }
+          matrix.push(row);
+        }
+        return matrix;
+      }
+
+      // Check if (row, col) belongs to finder pattern (the 3 large corner squares)
+      function isFinderPattern(r, c, gridLength) {
+        if (r < 7 && c < 7) return true; // Top-Left
+        if (r < 7 && c >= gridLength - 7) return true; // Top-Right
+        if (r >= gridLength - 7 && c < 7) return true; // Bottom-Left
+        return false;
+      }
+
+      // --- SVG Generator ---
+      function generateSvgString(matrix, isBranded, isTransparent, size = 600) {
+        const gridLen = matrix.length;
+        const borderModules = 4; // Quiet zone
+        const totalModules = gridLen + borderModules * 2;
+        const moduleSize = size / totalModules;
+
+        let svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">`;
+
+        // Background
+        if (!isTransparent) {
+          const bgColor = isBranded ? '#070e1b' : '#ffffff';
+          svg += `<rect width="${size}" height="${size}" fill="${bgColor}" />`;
+        }
+
+        // Custom Finder Pattern Renderer
+        function drawFinderSvg(r, c) {
+          const x = (c + borderModules) * moduleSize;
+          const y = (r + borderModules) * moduleSize;
+          const finderSize = 7 * moduleSize;
+          
+          if (!isBranded) {
+            // High contrast square finder
+            svg += `<rect x="${x}" y="${y}" width="${finderSize}" height="${finderSize}" fill="#000000" />`;
+            svg += `<rect x="${x + moduleSize}" y="${y + moduleSize}" width="${finderSize - 2 * moduleSize}" height="${finderSize - 2 * moduleSize}" fill="${isTransparent ? 'none' : '#ffffff'}" />`;
+            svg += `<rect x="${x + 2 * moduleSize}" y="${y + 2 * moduleSize}" width="${finderSize - 4 * moduleSize}" height="${finderSize - 4 * moduleSize}" fill="#000000" />`;
+          } else {
+            // High Definition rounded gold & navy finder
+            const rx1 = moduleSize * 1.5;
+            svg += `<rect x="${x}" y="${y}" width="${finderSize}" height="${finderSize}" rx="${rx1}" fill="#f59e0b" />`;
+            svg += `<rect x="${x + moduleSize}" y="${y + moduleSize}" width="${finderSize - 2 * moduleSize}" height="${finderSize - 2 * moduleSize}" rx="${rx1 * 0.7}" fill="#070e1b" />`;
+            svg += `<rect x="${x + 2 * moduleSize}" y="${y + 2 * moduleSize}" width="${finderSize - 4 * moduleSize}" height="${finderSize - 4 * moduleSize}" rx="${rx1 * 0.4}" fill="#fbbf24" />`;
+          }
+        }
+
+        // Draw Finders first
+        drawFinderSvg(0, 0);
+        drawFinderSvg(0, gridLen - 7);
+        drawFinderSvg(gridLen - 7, 0);
+
+        // Draw Data Modules
+        for (let r = 0; r < gridLen; r++) {
+          for (let c = 0; c < gridLen; c++) {
+            if (isFinderPattern(r, c, gridLen)) continue;
+
+            if (matrix[r][c] === 1) {
+              const x = (c + borderModules) * moduleSize;
+              const y = (r + borderModules) * moduleSize;
+
+              if (!isBranded) {
+                svg += `<rect x="${x}" y="${y}" width="${moduleSize + 0.3}" height="${moduleSize + 0.3}" fill="#000000" />`;
+              } else {
+                const pad = moduleSize * 0.08;
+                const rx = moduleSize * 0.35;
+                svg += `<rect x="${x + pad}" y="${y + pad}" width="${moduleSize - pad * 2}" height="${moduleSize - pad * 2}" rx="${rx}" fill="#f59e0b" />`;
+              }
+            }
+          }
+        }
+
+        // --- Center Emblem Badge ---
+        const centerRatio = 0.28; // 28% size preserves Level H scannability
+        const badgeSize = size * centerRatio;
+        const cx = size / 2;
+        const cy = size / 2;
+        const rBadge = badgeSize / 2;
+
+        if (!isBranded) {
+          // High Contrast Centerpiece Badge: White circle with black border & bold KatR text
+          svg += `<circle cx="${cx}" cy="${cy}" r="${rBadge}" fill="#ffffff" stroke="#000000" stroke-width="${size * 0.006}" />`;
+          svg += `<circle cx="${cx}" cy="${cy}" r="${rBadge * 0.88}" fill="none" stroke="#000000" stroke-width="${size * 0.003}" />`;
+          svg += `<text x="${cx}" y="${cy + badgeSize * 0.12}" font-family="Outfit, sans-serif" font-weight="800" font-size="${badgeSize * 0.34}" fill="#000000" text-anchor="middle">KatR</text>`;
+        } else {
+          // High Definition Centerpiece Badge: Gold ring, Navy field, and Proportional Keyed-out KatR Horse Artwork!
+          svg += `<defs><clipPath id="horseCircleClip"><circle cx="${cx}" cy="${cy}" r="${rBadge * 0.88}" /></clipPath></defs>`;
+          // Outer Gold Ring
+          svg += `<circle cx="${cx}" cy="${cy}" r="${rBadge}" fill="#f59e0b" stroke="#fbbf24" stroke-width="${size * 0.005}" />`;
+          // Inner Navy Field
+          svg += `<circle cx="${cx}" cy="${cy}" r="${rBadge * 0.90}" fill="#070e1b" />`;
+          
+          // Render Keyed-out Horse Image with exact aspect ratio fit (no squishing/distortion)
+          const imgSrc = processedHorseDataUrl || "../assets/official_graphic.jpg";
+          const innerDiameter = rBadge * 1.76;
+          const targetW = innerDiameter;
+          const targetH = targetW * (horseNaturalHeight / horseNaturalWidth);
+          const hx = cx - targetW / 2;
+          const hy = cy - targetH / 2;
+          svg += `<image href="${imgSrc}" x="${hx}" y="${hy}" width="${targetW}" height="${targetH}" clip-path="url(#horseCircleClip)" />`;
+          
+          // Inner Gold Accent Ring Overlay
+          svg += `<circle cx="${cx}" cy="${cy}" r="${rBadge * 0.88}" fill="none" stroke="#fbbf24" stroke-width="${size * 0.004}" />`;
+        }
+
+        svg += `</svg>`;
+        return svg;
+      }
+
+      // --- Canvas Generator (For high-resolution PNG export & live preview) ---
+      function renderCanvas(matrix, isBranded, isTransparent, size = 1000) {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        const gridLen = matrix.length;
+        const borderModules = 4;
+        const totalModules = gridLen + borderModules * 2;
+        const moduleSize = size / totalModules;
+
+        // Background
+        ctx.clearRect(0, 0, size, size);
+        if (!isTransparent) {
+          ctx.fillStyle = isBranded ? '#070e1b' : '#ffffff';
+          ctx.fillRect(0, 0, size, size);
+        }
+
+        // Helper for rounded rectangles on Canvas
+        function drawRoundedRect(x, y, w, h, r, fillStyle) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.arcTo(x + w, y, x + w, y + h, r);
+          ctx.arcTo(x + w, y + h, x, y + h, r);
+          ctx.arcTo(x, y + h, x, y, r);
+          ctx.arcTo(x, y, x + w, y, r);
+          ctx.closePath();
+          ctx.fillStyle = fillStyle;
+          ctx.fill();
+        }
+
+        // Draw Finder Patterns
+        function drawFinderCanvas(r, c) {
+          const x = (c + borderModules) * moduleSize;
+          const y = (r + borderModules) * moduleSize;
+          const finderSize = 7 * moduleSize;
+
+          if (!isBranded) {
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x, y, finderSize, finderSize);
+            if (!isTransparent) {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(x + moduleSize, y + moduleSize, finderSize - 2 * moduleSize, finderSize - 2 * moduleSize);
+            } else {
+              ctx.clearRect(x + moduleSize, y + moduleSize, finderSize - 2 * moduleSize, finderSize - 2 * moduleSize);
+            }
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + 2 * moduleSize, y + 2 * moduleSize, finderSize - 4 * moduleSize, finderSize - 4 * moduleSize);
+          } else {
+            const rad = moduleSize * 1.5;
+            drawRoundedRect(x, y, finderSize, finderSize, rad, '#f59e0b');
+            drawRoundedRect(x + moduleSize, y + moduleSize, finderSize - 2 * moduleSize, finderSize - 2 * moduleSize, rad * 0.7, '#070e1b');
+            drawRoundedRect(x + 2 * moduleSize, y + 2 * moduleSize, finderSize - 4 * moduleSize, finderSize - 4 * moduleSize, rad * 0.4, '#fbbf24');
+          }
+        }
+
+        drawFinderCanvas(0, 0);
+        drawFinderCanvas(0, gridLen - 7);
+        drawFinderCanvas(gridLen - 7, 0);
+
+        // Draw Data Modules
+        for (let r = 0; r < gridLen; r++) {
+          for (let c = 0; c < gridLen; c++) {
+            if (isFinderPattern(r, c, gridLen)) continue;
+
+            if (matrix[r][c] === 1) {
+              const x = (c + borderModules) * moduleSize;
+              const y = (r + borderModules) * moduleSize;
+
+              if (!isBranded) {
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(x, y, moduleSize + 0.3, moduleSize + 0.3);
+              } else {
+                const pad = moduleSize * 0.08;
+                const rad = moduleSize * 0.35;
+                drawRoundedRect(x + pad, y + pad, moduleSize - pad * 2, moduleSize - pad * 2, rad, '#f59e0b');
+              }
+            }
+          }
+        }
+
+        // --- Center Emblem Badge ---
+        const badgeSize = size * 0.28;
+        const cx = size / 2;
+        const cy = size / 2;
+        const radius = badgeSize / 2;
+
+        if (!isBranded) {
+          // High Contrast Centerpiece: White circle badge with black outline & KatR text
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+          ctx.strokeStyle = '#000000';
+          ctx.lineWidth = Math.max(3, size * 0.006);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius * 0.88, 0, Math.PI * 2);
+          ctx.strokeStyle = '#000000';
+          ctx.lineWidth = Math.max(1.5, size * 0.003);
+          ctx.stroke();
+
+          ctx.fillStyle = '#000000';
+          ctx.font = `800 ${badgeSize * 0.34}px 'Outfit', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('KatR', cx, cy + badgeSize * 0.02);
+        } else {
+          // High Definition Centerpiece: Outer Gold Ring, Inner Navy field & Proportional KatR Horse Graphic
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+          ctx.fillStyle = '#f59e0b';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius * 0.90, 0, Math.PI * 2);
+          ctx.fillStyle = '#070e1b';
+          ctx.fill();
+
+          // Render Horse & Jockey Graphic inside inner circle with exact aspect ratio
+          if (horseImageLoaded) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius * 0.88, 0, Math.PI * 2);
+            ctx.clip();
+
+            const innerDiameter = radius * 1.76;
+            const targetW = innerDiameter;
+            const targetH = targetW * (horseNaturalHeight / horseNaturalWidth);
+            const hx = cx - targetW / 2;
+            const hy = cy - targetH / 2;
+            const sourceDrawable = processedHorseCanvas || horseImg;
+            ctx.drawImage(sourceDrawable, hx, hy, targetW, targetH);
+            ctx.restore();
+          }
+
+          // Gold Accent Outer Border Ring
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius * 0.88, 0, Math.PI * 2);
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = Math.max(2, size * 0.004);
+          ctx.stroke();
+        }
+
+        return canvas;
+      }
+
+      // Refresh Display & Preview
+      function updatePreview() {
+        const fullUrl = getFullUrl();
+        fullUrlDisplay.textContent = fullUrl;
+
+        const isBranded = (currentMode === 'branded');
+        const isTransparent = transparentCheck.checked;
+
+        // Generate matrix
+        try {
+          const matrix = getQrMatrix(fullUrl);
+          
+          // Render SVG for crisp preview
+          const svgStr = generateSvgString(matrix, isBranded, isTransparent, 600);
+          qrContainer.innerHTML = svgStr;
+        } catch (err) {
+          console.error("QR Render Error:", err);
+        }
+
+        // Update badge text
+        const resVal = resSelect.value;
+        resBadge.innerHTML = `<span class="badge-icon">📐</span> ${resVal} × ${resVal} px`;
+        transparencyBadge.innerHTML = isTransparent 
+          ? `<span class="badge-icon">✨</span> Transparent PNG`
+          : `<span class="badge-icon">⬜</span> Solid White PNG`;
+      }
+
+      // --- Event Listeners ---
+
+      // Input change
+      sourceInput.addEventListener('input', () => {
+        const val = sourceInput.value.trim().toLowerCase();
+        presetBtns.forEach(btn => {
+          if (btn.dataset.preset === val) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        updatePreview();
+      });
+
+      // Preset buttons
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          presetBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          sourceInput.value = btn.dataset.preset;
+          updatePreview();
+        });
+      });
+
+      // Copy URL Button
+      copyUrlBtn.addEventListener('click', () => {
+        const fullUrl = getFullUrl();
+        navigator.clipboard.writeText(fullUrl).then(() => {
+          showToast('Copied URL to clipboard!');
+        }).catch(() => {
+          showToast('Copied!');
+        });
+      });
+
+      // Mode Selector
+      modeOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          modeOptions.forEach(o => o.classList.remove('active'));
+          opt.classList.add('active');
+          currentMode = opt.dataset.mode;
+
+          if (currentMode === 'branded') {
+            modeHelpText.innerHTML = '<strong>High Definition:</strong> Styled KatR Gold & Navy design with official KatR Horse & Jockey centerpiece emblem.';
+            modeBadge.textContent = 'HIGH DEFINITION';
+          } else {
+            modeHelpText.innerHTML = '<strong>High Contrast:</strong> Crisp black & white QR code with center KatR emblem badge.';
+            modeBadge.textContent = 'HIGH CONTRAST';
+          }
+          updatePreview();
+        });
+      });
+
+      // Option changes
+      resSelect.addEventListener('change', updatePreview);
+      transparentCheck.addEventListener('change', updatePreview);
+
+      // Preview Background options
+      bgOptionBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgOptionBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const bgType = btn.dataset.bg;
+          
+          previewViewport.className = 'preview-viewport';
+          if (bgType === 'checker') previewViewport.classList.add('bg-checker');
+          else if (bgType === 'white') previewViewport.classList.add('bg-white-preview');
+          else if (bgType === 'navy') previewViewport.classList.add('bg-navy-preview');
+        });
+      });
+
+      // Download PNG
+      downloadPngBtn.addEventListener('click', () => {
+        const fullUrl = getFullUrl();
+        const isBranded = (currentMode === 'branded');
+        const isTransparent = transparentCheck.checked;
+        const resolution = parseInt(resSelect.value, 10) || 2000;
+        
+        const matrix = getQrMatrix(fullUrl);
+        const canvas = renderCanvas(matrix, isBranded, isTransparent, resolution);
+
+        const sourceTag = sourceInput.value.trim() || 'default';
+        const filename = `katr-qr-${sourceTag}-${resolution}px.png`;
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        showToast(`Downloaded ${filename}!`);
+      });
+
+      // Download SVG
+      downloadSvgBtn.addEventListener('click', () => {
+        const fullUrl = getFullUrl();
+        const isBranded = (currentMode === 'branded');
+        const isTransparent = transparentCheck.checked;
+        
+        const matrix = getQrMatrix(fullUrl);
+        const svgString = generateSvgString(matrix, isBranded, isTransparent, 1000);
+
+        const sourceTag = sourceInput.value.trim() || 'default';
+        const filename = `katr-qr-${sourceTag}.svg`;
+
+        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast(`Downloaded ${filename}!`);
+      });
+
+      // Initial Render
+      updatePreview();
+    });
+  </script>
+</body>
+</html>

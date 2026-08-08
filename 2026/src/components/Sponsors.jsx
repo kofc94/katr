@@ -3,6 +3,7 @@ import { SponsorsSection } from '@common/components';
 import CheckInSponsor from './sponsors/CheckInSponsor';
 import TicketWindowSponsor from './sponsors/TicketWindowSponsor';
 import BarSponsor from './sponsors/BarSponsor';
+import HappyHourSponsor from './sponsors/HappyHourSponsor';
 import RaffleTableSponsor from './sponsors/RaffleTableSponsor';
 import KidsActivitySponsor from './sponsors/KidsActivitySponsor';
 
@@ -16,6 +17,7 @@ export default function Sponsors() {
       <CheckInSponsor />
       <TicketWindowSponsor />
       <BarSponsor />
+      <HappyHourSponsor />
       <RaffleTableSponsor />
       <KidsActivitySponsor />
     </SponsorsSection>

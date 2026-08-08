@@ -6,6 +6,8 @@ export const eventConfig = {
   presenter: "Knights of Columbus Council #94",
   dateText: "Sat, Sep 12, 2026",
   timeText: "6:00 PM EST",
+  happyHourTimeText: "4:30 PM EST",
+  happyHourVenueName: "Lantern Lounge",
   venueName: "Heritage Hall",
   venueAddress: "177 Bedford St, Lexington",
   racesCountText: "5 Action Races",

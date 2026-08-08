@@ -40,6 +40,8 @@ export default function App() {
           presenter={eventConfig.presenter}
           dateText={eventConfig.dateText}
           timeText={eventConfig.timeText}
+          happyHourTimeText={eventConfig.happyHourTimeText}
+          happyHourVenueName={eventConfig.happyHourVenueName}
           venueName={eventConfig.venueName}
           venueAddress={eventConfig.venueAddress}
           racesCountText={eventConfig.racesCountText}
@@ -60,6 +62,8 @@ export default function App() {
           venueName={eventConfig.venueName}
           venueAddress={eventConfig.venueAddress}
           raceCount={eventConfig.raceCount}
+          happyHourTimeText={eventConfig.happyHourTimeText}
+          happyHourVenueName={eventConfig.happyHourVenueName}
         />
         <Sponsors />
         <Schedule
