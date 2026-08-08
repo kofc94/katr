@@ -294,12 +294,36 @@ cut -f1 all.tsv | sort | uniq -c
 # Distinct client IPs — a loose upper bound on visitors, not a real unique count
 cut -f5 all.tsv | sort -u | wc -l
 
-# Page views with obvious bots filtered out
-awk -F'\t' '$9==200 && $11 !~ /[Bb]ot|[Cc]rawl|[Ss]pider|[Ss]lurp/ && ($8=="/" || $8 ~ /\.html$/ || $8 !~ /\./)' all.tsv | wc -l
-
 # Which QR-code / print traffic landed on the /qr/ page
 grep -c $'\t/qr' all.tsv
 ```
+
+#### Counting real page views
+
+**Do not filter on user agent to separate humans from bots** — it does not work here. In a measured two-day sample it flagged only 124 of 6,381 requests, because vulnerability scanners send ordinary Chrome and Safari user-agent strings. Filtering on `sc-status == 200` is equally useless: every unknown path returns the landing page.
+
+The reliable signal is **whether the client fetched the JS bundle**. A scanner requests one path and leaves; a real browser parses the HTML and pulls the hashed assets:
+
+```bash
+# Real browser page loads
+awk -F'\t' '$8 ~ /^\/assets\/index-.*\.js$/' all.tsv | wc -l
+
+# Distinct visitors (approximate — shared NAT and mobile networks collapse IPs)
+awk -F'\t' '$8 ~ /^\/assets\/index-.*\.js$/ {print $5}' all.tsv | sort -u | wc -l
+
+# Real page loads per day
+awk -F'\t' '$8 ~ /^\/assets\/index-.*\.js$/ {print $1}' all.tsv | sort | uniq -c
+
+# Where those actual visitors were, by nearest edge location
+awk -F'\t' '$8 ~ /^\/assets\/index-.*\.js$/ {print substr($3,1,3)}' all.tsv | sort | uniq -c | sort -rn
+
+# Decoded user agents of real visitors (device/browser mix)
+awk -F'\t' '$8 ~ /^\/assets\/index-.*\.js$/ {print $11}' all.tsv | sed 's/%20/ /g' | sort | uniq -c | sort -rn
+```
+
+Cross-check the JS count against the CSS bundle (`index-*.css`); the two should be in the same ballpark, and a large gap means browser caching is skewing one of them.
+
+Sanity-check geography before trusting any of it. This is a Lexington, Massachusetts parish event, so genuine traffic should concentrate in `BOS`/`IAD`. A sample dominated by `FRA` and `HKG`, or by `X11; Linux x86_64` desktop user agents, is datacenter automation rather than parishioners — even though it fetched the assets.
 
 #### 4. Quick volume check without downloading anything
 
@@ -323,8 +347,9 @@ aws cloudwatch get-metric-statistics \
 A few caveats worth remembering before quoting any of this to the committee:
 
 - **Requests are not visitors.** One fresh page load is ~6–7 requests (HTML, CSS, JS, and the graphic/horse/QR images). Repeat visits hit the browser cache and log far fewer. Divide accordingly.
-- **A large share of traffic is bots.** Real samples are full of `/robots.txt`, `/sitemap.xml`, and probes for `/wp/` and `/wordpress/` from vulnerability scanners, plus search and AI crawlers. The bot-filtered `awk` above is a crude first pass, not a clean human count.
-- **User agents are URL-encoded** in the logs (spaces appear as `%20`), which is why the filters match on substrings.
+- **The overwhelming majority of traffic is hostile automation, not visitors.** A measured two-day sample held 6,381 requests, of which roughly **28** were real browser page loads. The rest was almost entirely vulnerability scanning — probes for `/wp-content/plugins/.../wp_filemanager.php`, `/1.php`, `/.env`, `/graphql`, `/admin.php` and hundreds of similar paths. None of it is a threat to a static S3 site with no PHP, no database, and no server-side code, but it dwarfs the real numbers. Always separate the two before quoting a figure.
+- **User agents are URL-encoded** in the logs (spaces appear as `%20`), and scanners routinely spoof real browser strings. Decode with `sed 's/%20/ /g'` for readability, but do not rely on user agent to identify bots.
+- **`301` responses are normal.** They are `http` → `https` upgrades from the distribution's `redirect-to-https` policy, mostly scanners hitting port 80. They are not errors.
 - **Ticket sales are not measurable here.** The Zeffy checkout is a cross-origin iframe, so no log line or analytics script can see form views or submissions. Use Zeffy's own dashboard for that.
 
 For proper visitor-level analytics (unique users, sessions, conversion funnels) we'd add a client-side tool or an Athena table over this bucket — not set up yet.

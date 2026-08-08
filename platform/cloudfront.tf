@@ -98,9 +98,20 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
+  # Unknown paths must answer 404, not 200. The bucket is private and the OAC
+  # policy grants only s3:GetObject (no s3:ListBucket), so S3 answers a missing
+  # key with 403 rather than 404 -- both are mapped here. Returning 200 for
+  # every bogus URL produced endless soft-404s for crawlers (vulnerability
+  # scanners probe thousands of /*.php paths) and made access logs unreadable,
+  # since a "200" no longer meant a real page was served.
+  #
+  # The body is still the year's landing page so a human who mistypes a URL
+  # gets something useful; only the status code changes. There is no
+  # client-side router, so no legitimate deep link depends on the old
+  # 403 -> 200 rewrite.
   custom_error_response {
     error_code            = 403
-    response_code         = 200
+    response_code         = 404
     response_page_path    = "/${var.current_year}/index.html"
     error_caching_min_ttl = 10
   }
