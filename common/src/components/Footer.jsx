@@ -29,7 +29,6 @@ export default function Footer({
             <li><a href="#about">About Event</a></li>
             <li><a href="#tickets">Get Tickets</a></li>
             <li><a href="#sponsors">Our Sponsors</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#schedule">Schedule</a></li>
             <li><a href="#faq">FAQ</a></li>
           </ul>

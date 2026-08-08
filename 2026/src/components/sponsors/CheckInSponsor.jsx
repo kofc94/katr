@@ -1,24 +1,21 @@
 import React from 'react';
 import BaseSponsorCard from '@common/components/sponsors/BaseSponsorCard';
+import ndBalletLogo from '@year/assets/sponsors/nd-ballet.png';
 
 /**
  * Check-In Table Sponsor Card (2026)
- * Easily edit this file to customize sponsor name, logo, contact, description, or website URL.
+ * Easily edit this file to customize sponsor name, logo, or website URL.
  */
 export default function CheckInSponsor() {
   return (
     <BaseSponsorCard
-      status="available" // Set to 'confirmed' when a sponsor is secured
-      badgeText="Sponsorship Open"
+      status="confirmed"
+      badgeText="Sponsor Confirmed"
       categoryTitle="Check-In Table Sponsor"
       icon="📋"
-      placeholderText="Your Logo Here"
-      sponsorLogo="" // Add sponsor logo image URL here (e.g. 'assets/sponsors/checkin-sponsor.png')
-      sponsorName="Check-In Table"
-      description="Welcome every attendee as they arrive! Includes prominent signage and promotional banner placement right at the event entry and registration table."
-      location="Welcome & Entry Desk"
-      contactEmail="sponsorships@lexingtonkofc.org"
-      websiteUrl="" // Add sponsor website URL here when confirmed
+      sponsorLogo={ndBalletLogo}
+      sponsorName="N&D Ballet"
+      websiteUrl="https://www.nadballet.com/"
     />
   );
 }
