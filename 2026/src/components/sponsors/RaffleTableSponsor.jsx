@@ -10,7 +10,10 @@ export default function RaffleTableSponsor() {
       icon="🎁"
       placeholderText="Your Logo Here"
       sponsorLogo=""
-      sponsorName=""
+      sponsorName="Raffle & Silent Auction Table"
+      description="Prominently featured where attendees browse and bid on high-value gift baskets and raffle items. Includes tabletop display & program recognition."
+      location="Auction & Prize Center"
+      contactEmail="sponsorships@lexingtonkofc.org"
       websiteUrl=""
     />
   );

@@ -11,19 +11,14 @@ export default function BaseSponsorCard({
   icon = '⭐',
   placeholderText = 'Your Logo Here',
   sponsorLogo = '',
-  sponsorName = '',
-  namePlaceholder = 'Your Name Here',
+  sponsorName,
+  description,
+  location,
+  contactEmail = 'sponsorships@lexingtonkofc.org',
   websiteUrl = '',
-  urlPlaceholder = 'yourwebsite.com',
   customButton = null,
 }) {
   const isConfirmed = status === 'confirmed';
-  // Show a bare domain rather than the full href — the cards are narrow.
-  const websiteLabel = websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
-
-  const logoImg = sponsorLogo && (
-    <img src={sponsorLogo} alt={sponsorName} className="sponsor-logo-img" />
-  );
 
   return (
     <div className={`sponsor-card ${isConfirmed ? 'secured' : 'open-opportunity'}`}>
@@ -33,21 +28,9 @@ export default function BaseSponsorCard({
 
       <div className="sponsor-category-title">{categoryTitle}</div>
 
-      <div className={`sponsor-logo-box${sponsorLogo ? ' has-logo' : ''}`}>
+      <div className="sponsor-logo-box">
         {sponsorLogo ? (
-          websiteUrl ? (
-            <a
-              href={websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="sponsor-logo-link"
-              aria-label={`Visit ${sponsorName || 'sponsor'} website`}
-            >
-              {logoImg}
-            </a>
-          ) : (
-            logoImg
-          )
+          <img src={sponsorLogo} alt={sponsorName} className="sponsor-logo-img" />
         ) : (
           <div className="logo-placeholder">
             <span className="placeholder-icon">{icon}</span>
@@ -57,25 +40,47 @@ export default function BaseSponsorCard({
       </div>
 
       <div className="sponsor-info">
-        <h3 className={`sponsor-name${sponsorName ? '' : ' is-placeholder'}`}>
-          {sponsorName || namePlaceholder}
-        </h3>
+        <h3 className="sponsor-name">{sponsorName}</h3>
+        <p className="sponsor-desc">{description}</p>
 
-        {websiteUrl ? (
+        <div className="sponsor-meta">
+          {location && (
+            <div className="meta-item">
+              <span className="meta-icon">📍</span> Location: {location}
+            </div>
+          )}
+          {contactEmail && (
+            <div className="meta-item">
+              <span className="meta-icon">✉️</span> Contact:{' '}
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="sponsor-actions">
+        {customButton ? (
+          customButton
+        ) : isConfirmed && websiteUrl ? (
           <a
             href={websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="sponsor-url"
+            className="sponsor-website-link"
           >
-            🌐 {websiteLabel}
+            🌐 Visit Sponsor Website
           </a>
         ) : (
-          <span className="sponsor-url is-placeholder">🌐 {urlPlaceholder}</span>
+          <a
+            href={`mailto:${contactEmail}?subject=Inquiry%3A%20${encodeURIComponent(
+              categoryTitle
+            )}`}
+            className="btn-primary sponsor-btn"
+          >
+            <span>⭐ Become This Sponsor</span>
+          </a>
         )}
       </div>
-
-      {customButton && <div className="sponsor-actions">{customButton}</div>}
     </div>
   );
 }

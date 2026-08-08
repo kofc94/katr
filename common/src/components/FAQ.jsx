@@ -32,12 +32,12 @@ export default function FAQ({
     {
       question: 'Do I need cash for betting?',
       answer:
-        'Yes, race wagering windows use cash, in increments of $2 bets. Cash is also accepted at the bar and for raffle tickets. Credit cards are accepted for event registration and ticket purchases online.',
+        'Yes, race wagering windows use cash ($2 bets). We will have change stations on site, but bringing small cash bills is recommended!',
     },
     {
       question: 'Where do event proceeds go?',
       answer:
-        '100% of proceeds directly fund local charities supported by the Knights of Columbus Council #94, including local special needs programs, youth counseling services, community scholarships, baby wellness programs, and veteran services. Thank you for your support!',
+        '100% of proceeds directly fund Knights of Columbus Council #94 charitable initiatives, including local food pantries, youth sports teams, community scholarships, and holiday assistance programs.',
     },
   ],
 }) {

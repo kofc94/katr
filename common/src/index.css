@@ -540,14 +540,6 @@ a:hover {
   transition: border-color 0.3s ease;
 }
 
-/* Real sponsor logos are usually dark artwork drawn for light backgrounds,
-   so give them a white plate instead of the dark placeholder well. */
-.sponsor-logo-box.has-logo {
-  background: #ffffff;
-  border-style: solid;
-  padding: 1rem;
-}
-
 .sponsor-card:hover .sponsor-logo-box {
   border-color: var(--border-gold);
 }
@@ -580,22 +572,6 @@ a:hover {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* Logos link to the sponsor's site — fill the plate so the whole box is a target. */
-.sponsor-logo-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.sponsor-logo-link:hover .sponsor-logo-img,
-.sponsor-logo-link:focus-visible .sponsor-logo-img {
-  transform: scale(1.04);
-  opacity: 0.85;
 }
 
 .sponsor-info {
@@ -612,27 +588,63 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
-.sponsor-name.is-placeholder {
+.sponsor-desc {
+  font-size: 0.92rem;
   color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
 }
 
-.sponsor-url {
-  display: inline-flex;
-  align-items: center;
+.sponsor-meta {
+  display: flex;
+  flex-direction: column;
   gap: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--accent-cyan-light);
-  word-break: break-word;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: rgba(7, 14, 27, 0.4);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.sponsor-url.is-placeholder {
-  color: var(--text-muted);
-  font-weight: 500;
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meta-item a {
+  color: var(--accent-cyan-light);
 }
 
 .sponsor-actions {
   margin-top: auto;
+}
+
+.sponsor-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.sponsor-website-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem 1.2rem;
+  background: rgba(2, 132, 199, 0.15);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan-light);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.sponsor-website-link:hover {
+  background: var(--accent-cyan);
+  color: #ffffff;
 }
 
 /* Schedule Timeline */
