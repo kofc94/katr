@@ -10,10 +10,7 @@ export default function BarSponsor() {
       icon="🍻"
       placeholderText="Your Logo Here"
       sponsorLogo=""
-      sponsorName="Bar & Refreshment Station"
-      description="Sponsor the central social hub of the event! Includes main bar area banner, logo placement on drink menus, and special announcements."
-      location="Main Hall Bar & Lounge"
-      contactEmail="sponsorships@lexingtonkofc.org"
+      sponsorName=""
       websiteUrl=""
     />
   );

@@ -4,7 +4,7 @@ export default function About({
   venueName,
   venueAddress,
   racesText,
-  racesDesc = 'Exciting races featuring wooden horses jockeyed live by event guests around the track! Place your bets and win cash & raffle prizes.',
+  racesDesc = 'Races featuring wooden horses guided by volunteer jockeys around the track! Place your bets, support local charities and maybe select the winning horse!',
 }) {
   return (
     <section id="about" className="section">
@@ -12,7 +12,13 @@ export default function About({
         <div className="section-tag">An Exciting Tradition</div>
         <h2 className="section-title">What is K'night at the Races?</h2>
         <p className="section-desc">
-          Join us at {venueName} ({venueAddress}) for an exciting community gala! Event guests jockey wooden horses around the track while attendees place bets and cheer on their favorites.
+          Join us at {venueName} ({venueAddress}) for an exciting community gala! 
+        </p>
+        <p className="section-desc">
+          Volunteer jockeys guide wooden horses around the track while attendees place bets and cheer on their favorites.
+        </p>
+        <p className="section-desc">
+          Proceeds from each race are split 50/50 between area charities and the winners!
         </p>
       </div>
 
@@ -25,9 +31,9 @@ export default function About({
 
         <div className="feature-card">
           <div className="feature-icon">🍽️</div>
-          <h3 className="feature-title">Buffet Dinner & Drinks</h3>
+          <h3 className="feature-title">Buffet Dinner & Cash Bar</h3>
           <p className="feature-desc">
-            Enjoy a delicious catered dinner, snacks, signature Derby drinks, beer, and wine at our cash bar.
+            Enjoy a delicious catered dinner and dessert, signature Derby cocktails, beer, and wine.
           </p>
         </div>
 
@@ -35,15 +41,15 @@ export default function About({
           <div className="feature-icon">🎨</div>
           <h3 className="feature-title">Kid's Activity Table</h3>
           <p className="feature-desc">
-            Fun crafts, games, and creative activities designed specifically for children and families attending the event.
+            Creative and fun activities designed for children and families attending the event.
           </p>
         </div>
 
         <div className="feature-card">
           <div className="feature-icon">🎁</div>
-          <h3 className="feature-title">Silent Auction & Raffles</h3>
+          <h3 className="feature-title">Raffles & Silent Auction</h3>
           <p className="feature-desc">
-            Bid on luxury gift baskets, sports memorabilia, restaurant gift certificates, and win 50/50 cash raffles.
+            Bid on luxury gift baskets, gift certificates. Special Silent Auction item
           </p>
         </div>
       </div>

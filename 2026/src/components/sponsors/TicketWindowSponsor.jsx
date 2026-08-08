@@ -10,10 +10,7 @@ export default function TicketWindowSponsor() {
       icon="🎟️"
       placeholderText="Your Logo Here"
       sponsorLogo=""
-      sponsorName="Ticket Window"
-      description="High-traffic visibility at the race wagering windows where every guest places their bets! Includes custom branded counters and signage."
-      location="Wagering & Betting Windows"
-      contactEmail="sponsorships@lexingtonkofc.org"
+      sponsorName=""
       websiteUrl=""
     />
   );

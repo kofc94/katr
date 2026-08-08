@@ -4,7 +4,6 @@ import {
   Hero,
   About,
   Tickets,
-  HowItWorks,
   Schedule,
   FAQ,
   Footer,
@@ -54,21 +53,17 @@ export default function App() {
           venueAddress={eventConfig.venueAddress}
           racesText={eventConfig.racesCountText}
         />
+        <Sponsors />
         <Tickets
           zeffyFormUrl={eventConfig.zeffyFormUrl}
           zeffyEmbedSrc={eventConfig.zeffyEmbedSrc}
         />
-        <HowItWorks
+        <Schedule
           venueName={eventConfig.venueName}
           venueAddress={eventConfig.venueAddress}
           raceCount={eventConfig.raceCount}
           happyHourTimeText={eventConfig.happyHourTimeText}
           happyHourVenueName={eventConfig.happyHourVenueName}
-        />
-        <Sponsors />
-        <Schedule
-          venueName={eventConfig.venueName}
-          venueAddress={eventConfig.venueAddress}
         />
         <FAQ />
       </main>

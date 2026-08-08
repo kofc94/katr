@@ -28,7 +28,7 @@ export default function Tickets({ zeffyFormUrl, zeffyEmbedSrc }) {
         <div className="section-tag">Online Registration & Checkout</div>
         <h2 className="section-title">Get Tickets Online</h2>
         <p className="section-desc">
-          100% of proceeds benefit Knights of Columbus Council #94 local charities. Registration powered securely by Zeffy with zero transaction fees.
+          100% of proceeds benefit local charities.
         </p>
       </div>
 
