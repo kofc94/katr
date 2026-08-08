@@ -39,7 +39,9 @@ Note: a `BaseSponsorCard.jsx` exists in both `common/` and `2026/src/components/
 
 ### Infrastructure (`platform/`, OpenTofu)
 
-S3 (private) + CloudFront (OAC, HTTPS) + Route 53 + ACM. The `katr-year-router` CloudFront Function (`cloudfront.tf`) rewrites `/` → `/<current_year>/index.html` at the edge. `current_year` is set in `variables.tf` (or a `tofu.tfvars`) and determines which year root traffic serves. `terraform.tfstate` is committed locally (no remote backend).
+S3 (private) + CloudFront (OAC, HTTPS) + Route 53 + ACM. The `katr-year-router` CloudFront Function (`cloudfront.tf`) rewrites `/` → `/<current_year>/index.html` at the edge. `current_year` is set in `variables.tf` (or a `tofu.tfvars`) and determines which year root traffic serves. State lives in the shared bucket at `s3://lanternlounge-tfstate/katr/platform/terraform.tfstate`, with native S3 locking (`use_lockfile`, no DynamoDB table) — hence `required_version >= 1.10.0`. A fresh clone just needs `tofu init`.
+
+The `lawn-signs/` volunteer app is deployed to the same bucket under `/lawn-signs/` and is backed by its own Cognito pool, HTTP API and Lambdas (`lawn_signs*.tf`). It holds no AWS credentials — see `lawn-signs/README.md`.
 
 ## Adding a new year
 

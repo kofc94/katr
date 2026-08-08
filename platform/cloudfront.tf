@@ -33,6 +33,18 @@ function handler(event) {
         return request;
     }
 
+    // Direct routing for /lawn-signs app
+    if (uri.startsWith('/lawn-signs')) {
+        if (uri === '/lawn-signs') {
+            request.uri = '/lawn-signs/index.html';
+        } else if (uri.endsWith('/')) {
+            request.uri = uri + 'index.html';
+        } else if (!uri.substring(uri.lastIndexOf('/')).includes('.')) {
+            request.uri = uri + '/index.html';
+        }
+        return request;
+    }
+
     // Default to active year
     var activeYear = "${var.current_year}";
 

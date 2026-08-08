@@ -106,12 +106,40 @@ cd platform
 ./deploy.sh
 ```
 
-To deploy a specific year folder:
+To deploy a specific target:
 
 ```bash
 cd platform
-./deploy.sh 2026
+./deploy.sh 2026          # a specific year's site
+./deploy.sh lawn-signs    # the volunteer lawn sign tracker
+./deploy.sh all           # the active year plus the tracker
 ```
+
+With no argument it deploys whichever year `current_year` points at. The
+`lawn-signs` target reads the API and Cognito identifiers out of `tofu output`
+and injects them into the Vite build; if those outputs are missing it warns and
+builds the app in local demo mode instead.
+
+### Remote state
+
+OpenTofu state lives in the shared state bucket:
+
+```
+s3://lanternlounge-tfstate/katr/platform/terraform.tfstate
+```
+
+That bucket is versioned and encrypted, and the backend uses **native S3
+locking** (`use_lockfile = true`) rather than a DynamoDB lock table — which is
+why `required_version` is `>= 1.10.0` (OpenTofu 1.10 / Terraform 1.11 added it).
+
+The migration from local state is already done. On a fresh clone you only need:
+
+```bash
+cd platform
+tofu init
+```
+
+State is never committed — `*.tfstate` is gitignored.
 
 ### What `deploy.sh` Does:
 

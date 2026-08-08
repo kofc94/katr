@@ -49,14 +49,14 @@ data "aws_iam_policy_document" "s3_policy" {
   }
 }
 
-# CORS configuration for web assets
+# CORS configuration for web assets & lawn sign photo uploads
 resource "aws_s3_bucket_cors_configuration" "website" {
   bucket = aws_s3_bucket.website.id
 
   cors_rule {
     allowed_headers = ["*"]
-    allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["https://${var.domain_name}", "https://www.${var.domain_name}"]
+    allowed_methods = ["GET", "HEAD", "PUT", "POST"]
+    allowed_origins = ["*"]
     expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }
